@@ -161,6 +161,14 @@ h2{
 .step h3{font-weight:800;font-size:21px;margin:10px 0;letter-spacing:-.01em}
 .step p{color:rgba(244,237,221,.8);font-size:15.5px}
 
+/* choice cards */
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.choice-card{border:1px solid rgba(244,237,221,.25);border-radius:6px;padding:24px 24px 20px;background:rgba(244,237,221,.04)}
+.choice-card.hire{border-color:var(--tan-bright);background:rgba(226,167,95,.08)}
+.choice-card h3{font-weight:900;font-size:20px;letter-spacing:-.01em;margin-bottom:10px;font-variation-settings:'wdth' 78;text-transform:uppercase}
+.choice-card p{color:rgba(244,237,221,.82);font-size:15.5px;margin-bottom:14px}
+.choice-cost{font-family:'Courier Prime',monospace;font-weight:700;font-size:12.5px;letter-spacing:.14em;color:var(--tan-bright)}
+@media (max-width:880px){.choice{grid-template-columns:1fr}}
 /* deal */
 .deal{margin-top:44px;background:var(--paper);color:var(--ink);border-radius:4px;padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
 .deal-math{font-family:'Courier Prime',monospace;font-size:15px}
@@ -250,11 +258,11 @@ footer a:hover{color:var(--tan-bright)}
   <div class="wrap hero-grid">
     <div>
       <div class="eyebrow">Askbillhound.com</div>
-      <h1>They pad your bills because nobody fights back. <em>He fights back.</em></h1>
-      <p class="hero-sub">Send Billhound a photo of a bill. He hunts down what you're overpaying and wins it back. His cut comes out of the money he finds. If he finds nothing, you pay nothing.</p>
+      <h1>They pad your bills because nobody checks. <em>He checks. Free.</em></h1>
+      <p class="hero-sub">Send Billhound a bill. He analyzes every line, free, no obligation, and shows you what looks negotiable and what it's probably worth. Then you choose: use the findings yourself, or hire him to fight the provider for you. If you hire him and he wins nothing, you pay nothing.</p>
       <div class="cta-row">
-        <a class="btn" href="#send">Send him a bill</a>
-        <span class="cta-note">No card. No account. No phone call.<br>Or text a photo of your bill to <a class="smslink" href="sms:+18137361913&body=Here%27s%20my%20bill">813-736-1913</a></span>
+        <a class="btn" href="#send">Get my free bill analysis</a>
+        <span class="cta-note">No card. No account. No obligation.<br>Or text a photo of your bill to <a class="smslink" href="sms:+18137361913&body=Here%27s%20my%20bill">813-736-1913</a></span>
       </div>
     </div>
     <div class="hound-stage">
@@ -313,26 +321,40 @@ footer a:hover{color:var(--tan-bright)}
 <section class="sec-deep" id="how">
   <div class="wrap">
     <div class="eyebrow rv">How the hunt works</div>
-    <h2 class="rv">You send one text. He does the part you hate.</h2>
+    <h2 class="rv">You send one text. The analysis is free.</h2>
     <div class="steps rv">
       <div class="step">
         <div class="mono">STEP 1</div>
-        <h3>Snap the bill</h3>
-        <p>Take a photo of any bill and send it. Cable, internet, wireless, home security. That's the whole job on your end. No forms, no login, no card.</p>
+        <h3>Send a bill</h3>
+        <p>Snap a photo, text it or send it below. Cable, internet, wireless, home security. That's the whole job on your end.</p>
       </div>
       <div class="step">
         <div class="mono">STEP 2</div>
-        <h3>He hunts</h3>
-        <p>He reads every line. He knows which fees are padding, which promos expired, and what the company down the street charges. Then he comes back with a number: exactly what he thinks he can win back.</p>
+        <h3>He analyzes it, free</h3>
+        <p>He reads every line and comes back with what stands out and a realistic savings range. Ranges, not promises. If the bill is clean, he says so.</p>
       </div>
       <div class="step">
         <div class="mono">STEP 3</div>
-        <h3>You split the win</h3>
-        <p>You give the go-ahead, he takes the fight to them. When he wins, you keep most of the savings and his share comes out of the found money. Your bill goes down more than his fee. Always.</p>
+        <h3>You choose</h3>
+        <p>Take the findings and call the provider yourself, free, done. Or hire Billhound to negotiate for you. He only gets paid from savings he actually wins.</p>
+      </div>
+    </div>
+    <div class="choice-intro rv"><p class="lede" style="color:rgba(244,237,221,.85);margin:44px 0 22px">After the analysis, there are two ways to go. Both are fine with him.</p></div>
+    <div class="choice rv">
+      <div class="choice-card">
+        <h3>I'll use the analysis myself</h3>
+        <p>Free, full stop. You get what stands out on your bill and what it's realistically worth. You make the call, you keep everything you win. No fee, no authorization, no catch. A lot of people do exactly this.</p>
+        <div class="choice-cost">COSTS: $0</div>
+      </div>
+      <div class="choice-card hire">
+        <h3>Hire Billhound to negotiate</h3>
+        <p>He takes the fight to the provider: the hold music, the retention department, the "let me transfer you." You sign a one-page authorization covering only that bill, and he goes to work. His fee is 45% of verified savings for the first 12 months, taken out of the savings each month. You keep 55% of every win, every month, and you're never out of pocket. If he wins nothing, you pay nothing.</p>
+        <div class="choice-cost">COSTS: NOTHING UNLESS HE WINS</div>
       </div>
     </div>
     <div class="deal rv">
       <div class="deal-math" aria-label="Example of how the split works">
+        <div class="row"><span>Bill analysis</span><span>$0</span></div>
         <div class="row"><span>Your old bill</span><span>$128 / mo</span></div>
         <div class="row"><span>Your bill after he wins</span><span>$94 / mo</span></div>
         <div class="row"><span>Money found</span><span>$34 / mo</span></div>
@@ -341,9 +363,9 @@ footer a:hover{color:var(--tan-bright)}
         <div class="row total"><span>Out of your pocket</span><span>$0</span></div>
       </div>
       <div class="deal-copy">
-        <h3>Here's the catch, in writing.</h3>
-        <p>There's always a catch, so here's his: he keeps a share of what he saves you, for the first year of savings. That's it. That's the whole business.</p>
-        <p>No sign-up fees. No monthly bill. He doesn't touch a dime he didn't put in your pocket first. If he hunts and comes back empty, you owe nothing, and he says so plainly.</p>
+        <h3>The fee, in writing.</h3>
+        <p>The analysis is free no matter what. The fee only exists if you hire him to negotiate, and it only comes out of money he actually wins: 45% of verified savings for the first twelve months, billed monthly from the savings themselves.</p>
+        <p>The final fee follows what's verified, not the estimate. If the win comes in smaller, his cut shrinks with it. If there's no win, there's no fee.</p>
       </div>
     </div>
   </div>
@@ -356,16 +378,20 @@ footer a:hover{color:var(--tan-bright)}
     <h2 class="rv">The questions you should be asking.</h2>
     <div class="faq rv">
       <div class="qa">
-        <h3>Is this legit?</h3>
-        <p>Fair question. Bill negotiation is a real industry, and the honest version of it works exactly one way: no money up front, paid only from verified savings. That's how Billhound runs. You see every number before anything happens, and you approve the fight before it starts.</p>
+        <h3>Is the analysis really free?</h3>
+        <p>Yes, with no obligation attached. He analyzes the bill, shows you what stands out and the realistic range, and you can walk away with it. The free analysis is the front door, not a trap. He'd rather be the guy who told you the truth about your bill than the guy who held it hostage.</p>
       </div>
       <div class="qa">
-        <h3>How can he negotiate for me?</h3>
+        <h3>What's the catch on the free analysis?</h3>
+        <p>He's betting some people will look at the findings, picture 45 minutes on hold with the retention department, and hire him to do it instead. That's the whole business model. If you'd rather make the call yourself, the findings are yours.</p>
+      </div>
+      <div class="qa">
+        <h3>If I hire him, how can he negotiate for me?</h3>
         <p>You sign a one-page authorization that lets him deal with your provider on your behalf. Same thing a lawyer or a family member would use. You e-sign it from your phone in about a minute, and it only covers the bill you sent.</p>
       </div>
       <div class="qa">
         <h3>Do I have to get on the phone?</h3>
-        <p>No. That's the point of him. He handles the hold music, the retention department, the "let me transfer you." You get a text when it's done.</p>
+        <p>Not if you hire him. That's the point of him. He handles the hold music, the retention department, the "let me transfer you." You get a text when it's done.</p>
       </div>
       <div class="qa">
         <h3>Will my service change?</h3>
@@ -373,7 +399,7 @@ footer a:hover{color:var(--tan-bright)}
       </div>
       <div class="qa">
         <h3>What if he finds nothing?</h3>
-        <p>Then you pay nothing, and he tells you straight: your bill is clean. No fee, no follow-up sales pitch, no "well, actually." The only way he makes a dollar is by putting more than that dollar back in your pocket first.</p>
+        <p>Then the analysis says so plainly, you've spent nothing, and you know your bill is clean. That answer has value too. If you hired him and the negotiation wins nothing, you pay nothing.</p>
       </div>
     </div>
   </div>
@@ -386,8 +412,8 @@ footer a:hover{color:var(--tan-bright)}
       <img src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="" aria-hidden="true" width="130" height="130" style="border-radius:8px">
       <div>
         <div class="eyebrow rv">One text from now</div>
-        <h2 class="rv">Every company in your life takes money out. Meet the one that puts it back.</h2>
-        <p class="lede rv">The bill is sitting in a drawer or an inbox right now, padding and all. Thirty seconds to snap it and send it. Worst case, he tells you your bill is clean and you pay nothing. Best case starts around $400 a year, every year, for a text.</p>
+        <h2 class="rv">Get the free analysis.</h2>
+        <p class="lede rv">The bill that jumped recently is the best place to start. Worst case, he tells you it's clean and you've lost thirty seconds.</p>
         <div class="textbox rv">
           <div class="tb-label">FASTEST WAY</div>
           <div class="tb-body">Text a photo of your bill to <a class="smslink big" href="sms:+18137361913&body=Here%27s%20my%20bill">813-736-1913</a></div>
@@ -402,8 +428,8 @@ footer a:hover{color:var(--tan-bright)}
           <div class="ff"><label for="bf-msg">Anything he should know? <span class="opt">(optional)</span></label><textarea id="bf-msg" name="message" rows="3" maxlength="1200" placeholder="It's a Spectrum bill, it jumped $40 last month..."></textarea></div>
           <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
           <div class="cta-row">
-            <button class="btn" type="submit" id="bf-btn">Send him the bill</button>
-            <span class="cta-note" id="bf-status">Takes 30 seconds &middot; or text your bill to 813-736-1913</span>
+            <button class="btn" type="submit" id="bf-btn">Get my free analysis</button>
+            <span class="cta-note" id="bf-status">Takes 30 seconds &middot; free, no obligation &middot; or text your bill to 813-736-1913</span>
           </div>
         </form>
       </div>
@@ -539,7 +565,7 @@ footer a:hover{color:var(--tan-bright)}
         if(!res.ok) throw new Error('send failed');
         form.reset();
         btn.textContent = 'He\u2019s on it';
-        status.textContent = 'Got it. He\u2019ll reply to your email, usually same day.';
+        status.textContent = 'Got it. He\u2019s on the analysis and will reply to your email, usually same day.';
       });
     }).catch(function(){
       btn.disabled = false;
