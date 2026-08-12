@@ -175,6 +175,14 @@ h2{
 .final-grid svg{width:130px;height:auto}
 
 
+/* text-him block */
+.textbox{max-width:560px;background:rgba(244,237,221,.06);border:1px dashed rgba(226,167,95,.55);border-radius:6px;padding:20px 22px;margin-bottom:26px}
+.tb-label{font-family:'Courier Prime',monospace;font-weight:700;font-size:12px;letter-spacing:.2em;color:var(--tan-bright);margin-bottom:6px}
+.tb-body{font-weight:800;font-size:20px;letter-spacing:-.01em}
+.tb-sub{font-size:14px;color:rgba(244,237,221,.65);margin-top:6px}
+.smslink{color:var(--tan-bright);text-decoration:none;border-bottom:2px solid var(--tan-bright);font-weight:800}
+.smslink:hover{color:var(--paper);border-color:var(--paper)}
+.smslink.big{font-size:22px}
 /* form */
 #billform{max-width:560px}
 .ff{margin-bottom:16px}
@@ -184,6 +192,9 @@ h2{
 .ff input:focus,.ff textarea:focus{outline:2px solid var(--tan-bright);border-color:transparent}
 .ff input[type=file]{width:100%;color:rgba(244,237,221,.8);font-size:14px;font-family:'Courier Prime',monospace}
 .ff input[type=file]::file-selector-button{background:var(--tan-bright);color:var(--navy);border:none;border-radius:3px;font-weight:700;padding:9px 14px;margin-right:12px;cursor:pointer;font-family:'Archivo',sans-serif}
+.consent{display:flex;gap:10px;align-items:flex-start;margin-top:10px;font-size:13px;line-height:1.5;color:rgba(244,237,221,.7);text-transform:none;letter-spacing:0;font-family:'Archivo',sans-serif;font-weight:400;cursor:pointer}
+.consent input{margin-top:3px;accent-color:var(--tan-bright);width:16px;height:16px;flex:none}
+.consent a{color:var(--tan-bright)}
 .hp{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
 button.btn{border:none;cursor:pointer;font-family:'Archivo',sans-serif}
 button.btn[disabled]{opacity:.6;cursor:wait;transform:none}
@@ -233,7 +244,7 @@ footer a:hover{color:var(--tan-bright)}
       <p class="hero-sub">Send Billhound a photo of a bill. He hunts down what you're overpaying and wins it back. His cut comes out of the money he finds. If he finds nothing, you pay nothing.</p>
       <div class="cta-row">
         <a class="btn" href="#send">Send him a bill</a>
-        <span class="cta-note">No card. No account. No phone call.</span>
+        <span class="cta-note">No card. No account. No phone call.<br>Or text a photo of your bill to <a class="smslink" href="sms:+18135002020&body=Here%27s%20my%20bill">813-500-2020</a></span>
       </div>
     </div>
     <div class="hound-stage">
@@ -367,15 +378,22 @@ footer a:hover{color:var(--tan-bright)}
         <div class="eyebrow rv">One text from now</div>
         <h2 class="rv">Every company in your life takes money out. Meet the one that puts it back.</h2>
         <p class="lede rv">The bill is sitting in a drawer or an inbox right now, padding and all. Thirty seconds to snap it and send it. Worst case, he tells you your bill is clean and you pay nothing. Best case starts around $400 a year, every year, for a text.</p>
+        <div class="textbox rv">
+          <div class="tb-label">FASTEST WAY</div>
+          <div class="tb-body">Text a photo of your bill to <a class="smslink big" href="sms:+18135002020&body=Here%27s%20my%20bill">813-500-2020</a></div>
+          <div class="tb-sub">Snap it, send it, done. He replies by text. Or use the form below if you'd rather start by email.</div>
+        </div>
         <form id="billform" class="rv" autocomplete="on">
           <div class="ff"><label for="bf-name">Your first name</label><input id="bf-name" name="name" type="text" required maxlength="60" placeholder="Dana"></div>
           <div class="ff"><label for="bf-email">Your email</label><input id="bf-email" name="email" type="email" required maxlength="120" placeholder="you@email.com"></div>
+          <div class="ff"><label for="bf-phone">Mobile number <span class="opt">(optional, if you want him to text you)</span></label><input id="bf-phone" name="phone" type="tel" maxlength="20" placeholder="813-555-0100" autocomplete="tel">
+          <label class="consent"><input type="checkbox" id="bf-sms" name="sms_consent" value="yes"><span>Text me updates about my bill review. Message frequency varies, message &amp; data rates may apply. Reply HELP for help, STOP to cancel anytime. Consent isn't required to use the service. See <a href="/privacy.html">Privacy</a> &amp; <a href="/terms.html">Terms</a>.</span></label></div>
           <div class="ff"><label for="bf-file">Photo of your bill <span class="opt">(optional, you can send it after)</span></label><input id="bf-file" name="bill" type="file" accept="image/*,.pdf"></div>
           <div class="ff"><label for="bf-msg">Anything he should know? <span class="opt">(optional)</span></label><textarea id="bf-msg" name="message" rows="3" maxlength="1200" placeholder="It's a Spectrum bill, it jumped $40 last month..."></textarea></div>
           <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
           <div class="cta-row">
             <button class="btn" type="submit" id="bf-btn">Send him the bill</button>
-            <span class="cta-note" id="bf-status">Takes 30 seconds &middot; no card, no account</span>
+            <span class="cta-note" id="bf-status">Takes 30 seconds &middot; or text your bill to 813-500-2020</span>
           </div>
         </form>
       </div>
@@ -502,6 +520,8 @@ footer a:hover{color:var(--tan-bright)}
         body: JSON.stringify({
           name: form.name.value.trim(),
           email: form.email.value.trim(),
+          phone: form.phone.value.trim(),
+          sms_consent: form.sms_consent.checked,
           message: form.message.value.trim(),
           attachment: att
         })
