@@ -188,13 +188,14 @@ h2{
 .ff{margin-bottom:16px}
 .ff label{display:block;font-family:'Courier Prime',monospace;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tan-bright);margin-bottom:6px}
 .ff .opt{color:rgba(244,237,221,.5);text-transform:none;letter-spacing:0}
-.ff input[type=text],.ff input[type=email],.ff textarea{width:100%;background:rgba(244,237,221,.07);border:1px solid rgba(244,237,221,.25);border-radius:4px;color:var(--paper);font-family:'Archivo',sans-serif;font-size:16px;padding:12px 14px}
+.ff input[type=text],.ff input[type=email],.ff input[type=tel],.ff textarea{width:100%;background:rgba(244,237,221,.07);border:1px solid rgba(244,237,221,.25);border-radius:4px;color:var(--paper);font-family:'Archivo',sans-serif;font-size:16px;padding:12px 14px}
 .ff input:focus,.ff textarea:focus{outline:2px solid var(--tan-bright);border-color:transparent}
 .ff input[type=file]{width:100%;color:rgba(244,237,221,.8);font-size:14px;font-family:'Courier Prime',monospace}
 .ff input[type=file]::file-selector-button{background:var(--tan-bright);color:var(--navy);border:none;border-radius:3px;font-weight:700;padding:9px 14px;margin-right:12px;cursor:pointer;font-family:'Archivo',sans-serif}
-.consent{display:flex;gap:10px;align-items:flex-start;margin-top:10px;font-size:13px;line-height:1.5;color:rgba(244,237,221,.7);text-transform:none;letter-spacing:0;font-family:'Archivo',sans-serif;font-weight:400;cursor:pointer}
-.consent input{margin-top:3px;accent-color:var(--tan-bright);width:16px;height:16px;flex:none}
-.consent a{color:var(--tan-bright)}
+.ff label.consent{display:grid;grid-template-columns:20px 1fr;gap:12px;align-items:start;margin:14px 0 0;font-size:13.5px;line-height:1.55;color:rgba(244,237,221,.72);text-transform:none;letter-spacing:0;font-family:'Archivo',sans-serif;font-weight:400;cursor:pointer}
+.ff label.consent input[type=checkbox]{width:20px;height:20px;margin:1px 0 0;accent-color:var(--tan-bright);cursor:pointer}
+.ff label.consent span{display:block}
+.ff label.consent a{color:var(--tan-bright)}
 .hp{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
 button.btn{border:none;cursor:pointer;font-family:'Archivo',sans-serif}
 button.btn[disabled]{opacity:.6;cursor:wait;transform:none}
