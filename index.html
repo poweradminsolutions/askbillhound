@@ -437,6 +437,7 @@ footer a:hover{color:var(--tan-bright)}
             <button class="btn" type="submit" id="bf-btn">Get my free analysis</button>
             <span class="cta-note" id="bf-status">Takes 30 seconds &middot; free, no obligation &middot; or text your bill to 813-736-1913</span>
           </div>
+    <div class="form-banner" id="bf-banner" role="status" aria-live="polite"></div>
         </form>
       </div>
     </div>
@@ -603,6 +604,7 @@ footer a:hover{color:var(--tan-bright)}
 
   var banner = document.getElementById('bf-banner');
   function showBanner(kind, msg){
+    if(!banner) return;
     banner.className = 'form-banner show ' + kind;
     banner.textContent = msg;
   }
@@ -614,7 +616,7 @@ footer a:hover{color:var(--tan-bright)}
   form.addEventListener('submit', function(e){
     e.preventDefault();
     if(form.company.value) return;
-    banner.className = 'form-banner';
+    if(banner) banner.className = 'form-banner';
     btn.disabled = true;
     setStatus('Preparing your bill...');
         var file = form.bill.files[0];
