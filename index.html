@@ -174,6 +174,19 @@ h2{
 .final-grid{display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center}
 .final-grid svg{width:130px;height:auto}
 
+
+/* form */
+#billform{max-width:560px}
+.ff{margin-bottom:16px}
+.ff label{display:block;font-family:'Courier Prime',monospace;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tan-bright);margin-bottom:6px}
+.ff .opt{color:rgba(244,237,221,.5);text-transform:none;letter-spacing:0}
+.ff input[type=text],.ff input[type=email],.ff textarea{width:100%;background:rgba(244,237,221,.07);border:1px solid rgba(244,237,221,.25);border-radius:4px;color:var(--paper);font-family:'Archivo',sans-serif;font-size:16px;padding:12px 14px}
+.ff input:focus,.ff textarea:focus{outline:2px solid var(--tan-bright);border-color:transparent}
+.ff input[type=file]{width:100%;color:rgba(244,237,221,.8);font-size:14px;font-family:'Courier Prime',monospace}
+.ff input[type=file]::file-selector-button{background:var(--tan-bright);color:var(--navy);border:none;border-radius:3px;font-weight:700;padding:9px 14px;margin-right:12px;cursor:pointer;font-family:'Archivo',sans-serif}
+.hp{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
+button.btn{border:none;cursor:pointer;font-family:'Archivo',sans-serif}
+button.btn[disabled]{opacity:.6;cursor:wait;transform:none}
 footer{background:var(--navy-deep);border-top:1px solid rgba(244,237,221,.12);padding:34px 0;font-size:14px;color:rgba(244,237,221,.6)}
 .foot-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
 footer a{color:rgba(244,237,221,.85);text-decoration:none}
@@ -354,10 +367,17 @@ footer a:hover{color:var(--tan-bright)}
         <div class="eyebrow rv">One text from now</div>
         <h2 class="rv">Every company in your life takes money out. Meet the one that puts it back.</h2>
         <p class="lede rv">The bill is sitting in a drawer or an inbox right now, padding and all. Thirty seconds to snap it and send it. Worst case, he tells you your bill is clean and you pay nothing. Best case starts around $400 a year, every year, for a text.</p>
-        <div class="cta-row rv">
-          <a class="btn" href="mailto:fetch@askbillhound.com?subject=Here%27s%20my%20bill">Send him a bill</a>
-          <span class="cta-note">Email a photo to fetch@askbillhound.com &middot; texting line coming soon</span>
-        </div>
+        <form id="billform" class="rv" autocomplete="on">
+          <div class="ff"><label for="bf-name">Your first name</label><input id="bf-name" name="name" type="text" required maxlength="60" placeholder="Dana"></div>
+          <div class="ff"><label for="bf-email">Your email</label><input id="bf-email" name="email" type="email" required maxlength="120" placeholder="you@email.com"></div>
+          <div class="ff"><label for="bf-file">Photo of your bill <span class="opt">(optional, you can send it after)</span></label><input id="bf-file" name="bill" type="file" accept="image/*,.pdf"></div>
+          <div class="ff"><label for="bf-msg">Anything he should know? <span class="opt">(optional)</span></label><textarea id="bf-msg" name="message" rows="3" maxlength="1200" placeholder="It's a Spectrum bill, it jumped $40 last month..."></textarea></div>
+          <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
+          <div class="cta-row">
+            <button class="btn" type="submit" id="bf-btn">Send him the bill</button>
+            <span class="cta-note" id="bf-status">Takes 30 seconds &middot; no card, no account</span>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -366,7 +386,7 @@ footer a:hover{color:var(--tan-bright)}
 <footer>
   <div class="wrap foot-inner">
     <div><strong style="color:var(--paper)">BILLHOUND</strong> &middot; He only gets paid when he wins.</div>
-    <div><a href="mailto:fetch@askbillhound.com">fetch@askbillhound.com</a></div>
+    <div><a href="#send">Send him a bill</a></div>
   </div>
 </footer>
 
@@ -429,6 +449,73 @@ footer a:hover{color:var(--tan-bright)}
     },{threshold:.5});
     bio.observe(bill);
   } else { playBill(); }
+})();
+
+// ---- bill form ----
+(function(){
+  var form = document.getElementById('billform');
+  if(!form) return;
+  var btn = document.getElementById('bf-btn');
+  var status = document.getElementById('bf-status');
+
+  function compressImage(file){
+    return new Promise(function(resolve){
+      if(!file) return resolve(null);
+      if(file.type === 'application/pdf'){
+        if(file.size > 4*1024*1024){ resolve({tooBig:true}); return; }
+        var r = new FileReader();
+        r.onload = function(){ resolve({name:file.name, type:file.type, data:r.result.split(',')[1]}); };
+        r.readAsDataURL(file); return;
+      }
+      var img = new Image();
+      var url = URL.createObjectURL(file);
+      img.onload = function(){
+        var MAX = 1600;
+        var scale = Math.min(1, MAX/Math.max(img.width, img.height));
+        var c = document.createElement('canvas');
+        c.width = Math.round(img.width*scale); c.height = Math.round(img.height*scale);
+        c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+        URL.revokeObjectURL(url);
+        var data = c.toDataURL('image/jpeg', .82).split(',')[1];
+        resolve({name:(file.name||'bill').replace(/\.[^.]+$/,'')+'.jpg', type:'image/jpeg', data:data});
+      };
+      img.onerror = function(){ resolve(null); };
+      img.src = url;
+    });
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(form.company.value) return; // honeypot
+    btn.disabled = true;
+    status.textContent = 'Sending it to him...';
+    var file = form.bill.files[0];
+    compressImage(file).then(function(att){
+      if(att && att.tooBig){
+        btn.disabled = false;
+        status.textContent = 'That PDF is over 4MB. Try a photo of the bill instead.';
+        return;
+      }
+      return fetch('/api/send-bill', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          name: form.name.value.trim(),
+          email: form.email.value.trim(),
+          message: form.message.value.trim(),
+          attachment: att
+        })
+      }).then(function(res){
+        if(!res.ok) throw new Error('send failed');
+        form.reset();
+        btn.textContent = 'He\u2019s on it';
+        status.textContent = 'Got it. He\u2019ll reply to your email, usually same day.';
+      });
+    }).catch(function(){
+      btn.disabled = false;
+      status.textContent = 'Something hiccuped. Try again in a minute.';
+    });
+  });
 })();
 </script>
 
