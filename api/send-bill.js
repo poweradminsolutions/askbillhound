@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, sms_consent, message, attachment, company } = req.body || {};
+    const { name, email, phone, sms_consent, message, attachment, company, source } = req.body || {};
 
     // Honeypot: bots fill hidden fields. Pretend success, send nothing.
     if (company) return res.status(200).json({ ok: true });
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
     const safePhone = clean(phone, 20).replace(/[^\d+()\-. ]/g, '');
     form.append(
       'text',
-      `Name: ${safeName}\nEmail: ${email}\nPhone: ${safePhone || '(not given)'}\nSMS consent: ${sms_consent ? 'YES, opted in via web form ' + new Date().toISOString() : 'no'}\n\nMessage:\n${safeMsg || '(none)'}\n\nAttachment: ${attachment ? attachment.name : 'none'}\nSource: askbillhound.com form`
+      `Name: ${safeName}\nEmail: ${email}\nPhone: ${safePhone || '(not given)'}\nSMS consent: ${sms_consent ? 'YES, opted in via web form ' + new Date().toISOString() : 'no'}\n\nMessage:\n${safeMsg || '(none)'}\n\nAttachment: ${attachment ? attachment.name : 'none'}\nSource: ${source === 'cardshield_page' ? 'askbillhound.com/cardshield (member page)' : 'askbillhound.com form'}`
     );
 
     if (attachment && attachment.data && attachment.name) {

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /cardshield.html
+
+Sitemap: https://www.askbillhound.com/sitemap.xml
