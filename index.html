@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Billhound | He only gets paid when he wins</title>
+<meta name="description" content="Text Billhound a bill. He hunts down what you're overpaying and wins it back. If he finds nothing, you pay nothing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#16243a;
+  --navy-deep:#0e1829;
+  --paper:#f5efe3;
+  --paper-dim:#eae2d2;
+  --tan:#c8935c;
+  --tan-bright:#e0a866;
+  --ink:#1d2431;
+  --red:#b6402f;
+  --line:rgba(22,36,58,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{
+  font-family:'Archivo',sans-serif;
+  font-variation-settings:'wdth' 100;
+  background:var(--navy);
+  color:var(--paper);
+  line-height:1.6;
+  font-size:17px;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.mono{font-family:'Courier Prime',monospace}
+
+/* ---------- header ---------- */
+header{
+  border-bottom:1px solid rgba(245,239,227,.14);
+  background:var(--navy);
+}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.logo{font-weight:900;font-size:22px;letter-spacing:-.02em;color:var(--paper);text-decoration:none;font-variation-settings:'wdth' 75}
+.logo span{color:var(--tan-bright)}
+.header-cta{
+  font-family:'Courier Prime',monospace;font-weight:700;font-size:14px;
+  color:var(--navy);background:var(--tan-bright);
+  padding:10px 18px;text-decoration:none;border-radius:3px;
+}
+.header-cta:hover{background:var(--paper)}
+
+/* ---------- hero ---------- */
+.hero{padding:72px 0 80px;background:var(--navy)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.eyebrow{
+  font-family:'Courier Prime',monospace;font-size:13px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--tan-bright);margin-bottom:20px;
+}
+h1{
+  font-weight:900;font-size:clamp(34px,4.6vw,56px);line-height:1.06;
+  letter-spacing:-.025em;font-variation-settings:'wdth' 80;margin-bottom:22px;
+}
+h1 em{font-style:normal;color:var(--tan-bright)}
+.hero-sub{font-size:19px;color:rgba(245,239,227,.85);max-width:34em;margin-bottom:32px}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn{
+  display:inline-block;font-weight:800;font-size:17px;letter-spacing:.01em;
+  background:var(--tan-bright);color:var(--navy);
+  padding:16px 30px;border-radius:4px;text-decoration:none;
+  transition:transform .12s ease, background .12s ease;
+}
+.btn:hover{background:var(--paper);transform:translateY(-2px)}
+.btn:focus-visible,a:focus-visible{outline:3px solid var(--tan-bright);outline-offset:3px}
+.cta-note{font-family:'Courier Prime',monospace;font-size:13px;color:rgba(245,239,227,.65)}
+
+/* the marked-up bill: signature element */
+.bill{
+  background:var(--paper);color:var(--ink);
+  border-radius:4px;padding:26px 26px 30px;
+  font-family:'Courier Prime',monospace;font-size:14px;
+  transform:rotate(1.6deg);
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+  position:relative;
+}
+.bill-head{display:flex;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:14px;font-weight:700}
+.bill-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed rgba(29,36,49,.25)}
+.bill-row.cut span:last-child{position:relative;color:rgba(29,36,49,.55)}
+.bill-row.cut span:last-child::after{
+  content:"";position:absolute;left:-4px;right:-4px;top:52%;
+  border-top:2.5px solid var(--red);transform:rotate(-4deg);
+}
+.bill-note{color:var(--red);font-weight:700;font-size:12px;padding-left:12px}
+.stamp{
+  position:absolute;right:-14px;bottom:22px;
+  border:3.5px solid var(--red);color:var(--red);
+  font-weight:700;font-size:20px;letter-spacing:.06em;
+  padding:8px 16px;transform:rotate(-8deg);border-radius:3px;
+  background:rgba(245,239,227,.92);
+}
+.stamp small{display:block;font-size:11px;letter-spacing:.14em}
+
+/* ---------- section scaffolding ---------- */
+section{padding:76px 0}
+.sec-paper{background:var(--paper);color:var(--ink)}
+.sec-deep{background:var(--navy-deep)}
+h2{
+  font-weight:900;font-size:clamp(26px,3.4vw,40px);line-height:1.1;
+  letter-spacing:-.02em;font-variation-settings:'wdth' 80;margin-bottom:18px;max-width:20em;
+}
+.sec-paper .eyebrow{color:var(--red)}
+.lede{font-size:18px;max-width:38em}
+.sec-paper .lede{color:rgba(29,36,49,.8)}
+
+/* ---------- problem ---------- */
+.creep-list{margin-top:38px;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:1px solid var(--line)}
+.creep{background:var(--paper);padding:26px 24px}
+.creep .mono{font-weight:700;color:var(--red);font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+.creep h3{font-weight:800;font-size:19px;margin:8px 0 8px;letter-spacing:-.01em}
+.creep p{font-size:15px;color:rgba(29,36,49,.78)}
+
+/* ---------- how it works ---------- */
+.steps{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.step{border-top:3px solid var(--tan-bright);padding-top:18px}
+.step .mono{color:var(--tan-bright);font-weight:700;font-size:13px;letter-spacing:.14em}
+.step h3{font-weight:800;font-size:21px;margin:10px 0 10px;letter-spacing:-.01em}
+.step p{color:rgba(245,239,227,.8);font-size:15.5px}
+
+/* ---------- the deal ---------- */
+.deal{
+  margin-top:40px;background:var(--paper);color:var(--ink);border-radius:4px;
+  padding:34px 34px;display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center;
+}
+.deal-math{font-family:'Courier Prime',monospace;font-size:15px}
+.deal-math .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(29,36,49,.3)}
+.deal-math .row.total{border-bottom:none;border-top:2px solid var(--ink);font-weight:700;font-size:17px;margin-top:6px;padding-top:12px}
+.deal-copy h3{font-weight:900;font-size:24px;letter-spacing:-.02em;margin-bottom:12px}
+.deal-copy p{font-size:16px;color:rgba(29,36,49,.82);margin-bottom:12px}
+.deal-copy p:last-child{margin-bottom:0}
+
+/* ---------- straight answers ---------- */
+.faq{margin-top:36px;display:grid;gap:0;border-top:1px solid var(--line)}
+.qa{border-bottom:1px solid var(--line);padding:24px 0;display:grid;grid-template-columns:.9fr 1.4fr;gap:24px}
+.qa h3{font-weight:800;font-size:18px;letter-spacing:-.01em}
+.qa p{font-size:16px;color:rgba(29,36,49,.82)}
+
+/* ---------- transformation / final CTA ---------- */
+.final{background:var(--navy);text-align:left}
+.final .wrap{max-width:820px}
+.final h2{max-width:none}
+.final .lede{color:rgba(245,239,227,.85);margin-bottom:34px}
+
+/* ---------- footer ---------- */
+footer{background:var(--navy-deep);border-top:1px solid rgba(245,239,227,.12);padding:36px 0;font-size:14px;color:rgba(245,239,227,.6)}
+.foot-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer a{color:rgba(245,239,227,.85);text-decoration:none}
+footer a:hover{color:var(--tan-bright)}
+
+/* ---------- responsive ---------- */
+@media (max-width:860px){
+  .hero{padding:48px 0 64px}
+  .hero-grid{grid-template-columns:1fr;gap:44px}
+  .bill{transform:rotate(1deg);max-width:440px}
+  .creep-list,.steps{grid-template-columns:1fr}
+  .deal{grid-template-columns:1fr;padding:26px 22px}
+  .qa{grid-template-columns:1fr;gap:8px;padding:20px 0}
+  section{padding:56px 0}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-inner">
+    <a class="logo" href="/">BILL<span>HOUND</span></a>
+    <a class="header-cta" href="#send">SEND HIM A BILL</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Askbillhound.com</div>
+      <h1>Big companies pad your bills because nobody calls them on it. <em>I call them on it.</em></h1>
+      <p class="hero-sub">I'm Billhound. Text me a photo of a bill. I hunt down what you're overpaying and I win it back. My cut comes out of the money I find. If I find nothing, you pay nothing.</p>
+      <div class="cta-row">
+        <a class="btn" href="#send">Send Billhound a bill</a>
+        <span class="cta-note">No card. No account. No phone call.</span>
+      </div>
+    </div>
+    <div class="bill" role="img" aria-label="A cable bill marked up by Billhound with overcharges crossed out and a stamp reading Found: $412 per year">
+      <div class="bill-head"><span>CABLE / INTERNET</span><span>MONTHLY</span></div>
+      <div class="bill-row"><span>Internet 300Mbps</span><span>$79.99</span></div>
+      <div class="bill-row cut"><span>Promo expired uplift</span><span>$25.00</span></div>
+      <div class="bill-note">&#8593; you never agreed to this</div>
+      <div class="bill-row cut"><span>Modem rental</span><span>$15.00</span></div>
+      <div class="bill-note">&#8593; a $60 box, rented forever</div>
+      <div class="bill-row cut"><span>"Broadcast TV fee"</span><span>$8.25</span></div>
+      <div class="bill-note">&#8593; a made-up word for more money</div>
+      <div class="stamp">FOUND: $412<small>PER YEAR</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEM / AGITATE ============ -->
+<section class="sec-paper">
+  <div class="wrap">
+    <div class="eyebrow">The part they count on</div>
+    <h2>Your bill didn't get bigger because you bought more. It got bigger because you stayed.</h2>
+    <p class="lede">Cable, internet, phone, home security. They all run the same play: hook you with a promo rate, wait twelve months, then quietly ratchet it up. They have a name for it inside the building. It's called the loyalty tax, and it's priced on one bet: that you're too busy to sit on hold for 45 minutes and fight.</p>
+    <div class="creep-list">
+      <div class="creep">
+        <div class="mono">Play #1</div>
+        <h3>The expired promo</h3>
+        <p>The rate you signed up for was never the real rate. The real rate shows up in month 13, and it arrives without a phone call.</p>
+      </div>
+      <div class="creep">
+        <div class="mono">Play #2</div>
+        <h3>The rented box</h3>
+        <p>That $15/month "equipment fee" is a $60 modem you've now paid for six times. They'll keep charging until someone says stop.</p>
+      </div>
+      <div class="creep">
+        <div class="mono">Play #3</div>
+        <h3>The invented fee</h3>
+        <p>"Broadcast TV fee." "Regional sports fee." "Network enhancement." Line items built to sound official so you don't question them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VALUE STACK / HOW IT WORKS ============ -->
+<section class="sec-deep" id="how">
+  <div class="wrap">
+    <div class="eyebrow">How the hunt works</div>
+    <h2>You send one text. I do the part you hate.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="mono">STEP 1</div>
+        <h3>Snap the bill</h3>
+        <p>Take a photo of any bill and text it to me. Cable, internet, wireless, home security. That's the whole job on your end. No forms, no login, no card.</p>
+      </div>
+      <div class="step">
+        <div class="mono">STEP 2</div>
+        <h3>I hunt</h3>
+        <p>I read every line. I know which fees are padding, which promos expired, and what the company down the street charges. Then I come back with a number: exactly what I think I can win back.</p>
+      </div>
+      <div class="step">
+        <div class="mono">STEP 3</div>
+        <h3>We split the win</h3>
+        <p>You give me the go-ahead, I take the fight to them. When I win, you keep most of the savings and my share comes out of the found money. Your bill goes down more than my fee. Always.</p>
+      </div>
+    </div>
+    <div class="deal">
+      <div class="deal-math" aria-label="Example of how the split works">
+        <div class="row"><span>Your old bill</span><span>$128 / mo</span></div>
+        <div class="row"><span>Your bill after I win</span><span>$94 / mo</span></div>
+        <div class="row"><span>Money found</span><span>$34 / mo</span></div>
+        <div class="row"><span>Your share</span><span>$21 / mo</span></div>
+        <div class="row"><span>My share</span><span>$13 / mo</span></div>
+        <div class="row total"><span>Out of your pocket</span><span>$0</span></div>
+      </div>
+      <div class="deal-copy">
+        <h3>Here's the catch, in writing.</h3>
+        <p>There's always a catch, so here's mine: I keep a share of what I save you, for the first year of savings. That's it. That's the whole business.</p>
+        <p>I don't charge sign-up fees. I don't bill you monthly. I don't touch a dime that I didn't put in your pocket first. If I hunt and come back empty, you owe me nothing and I say so plainly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROOF / STRAIGHT ANSWERS ============ -->
+<section class="sec-paper">
+  <div class="wrap">
+    <div class="eyebrow">Straight answers</div>
+    <h2>The questions you should be asking.</h2>
+    <div class="faq">
+      <div class="qa">
+        <h3>Is this legit?</h3>
+        <p>Fair question. Bill negotiation is a real industry, and the honest version of it works exactly one way: no money up front, paid only from verified savings. That's how I run. You'll see every number before anything happens, and you approve the fight before I start it.</p>
+      </div>
+      <div class="qa">
+        <h3>How can you negotiate for me?</h3>
+        <p>You sign a one-page authorization that lets me deal with your provider on your behalf. Same thing a lawyer or a family member would use. You'll e-sign it from your phone in about a minute, and it only covers the bill you sent me.</p>
+      </div>
+      <div class="qa">
+        <h3>Do I have to get on the phone?</h3>
+        <p>No. That's the point of me. I handle the hold music, the retention department, the "let me transfer you." You get a text when it's done.</p>
+      </div>
+      <div class="qa">
+        <h3>Will my service change?</h3>
+        <p>Not unless you say yes first. My first move is always the same service at a lower price. If a better deal means a change, I bring it to you and you decide. Nothing moves without your go-ahead.</p>
+      </div>
+      <div class="qa">
+        <h3>Where are your reviews?</h3>
+        <p>I'm new, and I won't pretend otherwise. The first pack of hunts is underway right now, and real numbers from real bills get posted here as they land. No stock photos, no made-up names. If a company shows you a wall of five-star reviews the week they launched, ask who wrote them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRANSFORMATION + FINAL CTA ============ -->
+<section class="final" id="send">
+  <div class="wrap">
+    <div class="eyebrow">One text from now</div>
+    <h2>Every company in your life takes money out. Meet the one that puts it back.</h2>
+    <p class="lede">The bill is sitting in a drawer or an inbox right now. Padding and all. Thirty seconds to snap it and send it, and the worst case is I tell you your bill is clean and you pay nothing. The best case starts around $400 a year, every year, for a text.</p>
+    <div class="cta-row">
+      <a class="btn" href="mailto:fetch@askbillhound.com?subject=Here%27s%20my%20bill">Send Billhound a bill</a>
+      <span class="cta-note">Email a photo to fetch@askbillhound.com &middot; texting line coming soon</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div><strong style="color:var(--paper)">BILLHOUND</strong> &middot; He only gets paid when he wins.</div>
+    <div><a href="mailto:fetch@askbillhound.com">fetch@askbillhound.com</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
