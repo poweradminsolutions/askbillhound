@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, sms_consent, message, attachment, company, source } = req.body || {};
+    const { name, email, phone, sms_consent, message, attachment, attachments, pdf_meta, company, source } = req.body || {};
 
     // Honeypot: pretend success, deliver nothing.
     if (company) return res.status(200).json({ ok: true });
@@ -26,19 +26,23 @@ export default async function handler(req, res) {
 
     const clean = (s, max) => String(s || '').slice(0, max);
 
-    // Validate attachment early
-    let att = null;
-    if (attachment && attachment.data && attachment.name) {
-      const buf = Buffer.from(attachment.data, 'base64');
-      if (buf.length > 5 * 1024 * 1024) {
-        return res.status(400).json({ error: 'Attachment too large' });
+    // Validate attachments (array of page images; legacy single 'attachment' still accepted)
+    const rawList = Array.isArray(attachments) ? attachments : (attachment ? [attachment] : []);
+    const attList = [];
+    let totalBytes = 0;
+    for (const a of rawList.slice(0, 10)) {
+      if (!a || !a.data || !a.name) continue;
+      const buf = Buffer.from(a.data, 'base64');
+      totalBytes += buf.length;
+      if (buf.length > 5 * 1024 * 1024 || totalBytes > 8 * 1024 * 1024) {
+        return res.status(400).json({ error: 'Attachments too large' });
       }
-      att = {
-        filename: clean(attachment.name, 100).replace(/[^\w.\-]/g, '_'),
-        content_type: attachment.type === 'application/pdf' ? 'application/pdf' : 'image/jpeg',
-        data_base64: attachment.data,
+      attList.push({
+        filename: clean(a.name, 100).replace(/[^\w.\-]/g, '_'),
+        content_type: a.type === 'application/pdf' ? 'application/pdf' : 'image/jpeg',
+        data_base64: a.data,
         size_bytes: buf.length,
-      };
+      });
     }
 
     const payload = {
@@ -54,7 +58,9 @@ export default async function handler(req, res) {
         sms_consent_at: sms_consent ? new Date().toISOString() : null,
       },
       message: clean(message, 1200),
-      attachment: att, // null when none
+      attachments: attList,
+      attachment: attList[0] || null, // legacy field for receiver compatibility
+      pdf_meta: pdf_meta && typeof pdf_meta === 'object' ? { total_pages: Number(pdf_meta.total_pages) || null, truncated: !!pdf_meta.truncated } : null,
     };
 
     // ---- Webhook chain: Randy primary, Fred secondary. Same payload contract. ----
@@ -99,10 +105,10 @@ export default async function handler(req, res) {
       `Name: ${payload.customer.first_name}\nEmail: ${payload.customer.email}\n` +
       `Phone: ${payload.customer.phone || '(not given)'}\n` +
       `SMS consent: ${payload.customer.sms_consent ? 'YES ' + payload.customer.sms_consent_at : 'no'}\n\n` +
-      `Message:\n${payload.message || '(none)'}\n\nAttachment: ${att ? att.filename : 'none'}`
+      `Message:\n${payload.message || '(none)'}\n\nAttachments: ${attList.length ? attList.map(a => a.filename).join(', ') : 'none'}`
     );
-    if (att) {
-      form.append('attachment', new Blob([Buffer.from(att.data_base64, 'base64')], { type: att.content_type }), att.filename);
+    for (const a of attList) {
+      form.append('attachment', new Blob([Buffer.from(a.data_base64, 'base64')], { type: a.content_type }), a.filename);
     }
 
     const mgRes = await fetch(`https://api.mailgun.net/v3/${process.env.MAILGUN_DOMAIN}/messages`, {

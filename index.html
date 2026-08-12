@@ -518,14 +518,71 @@ footer a:hover{color:var(--tan-bright)}
   var btn = document.getElementById('bf-btn');
   var status = document.getElementById('bf-status');
 
-  function compressImage(file){
-    return new Promise(function(resolve){
+    var PDFJS_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+  var PDFJS_WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  var pdfjsReady = null;
+  function loadPdfJs(){
+    if(pdfjsReady) return pdfjsReady;
+    pdfjsReady = new Promise(function(resolve, reject){
+      var s = document.createElement('script');
+      s.src = PDFJS_SRC;
+      s.onload = function(){
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+        resolve(window.pdfjsLib);
+      };
+      s.onerror = function(){ reject(new Error('PDF reader failed to load')); };
+      document.head.appendChild(s);
+    });
+    return pdfjsReady;
+  }
+
+  function canvasToJpeg(canvas, quality){
+    return canvas.toDataURL('image/jpeg', quality).split(',')[1];
+  }
+
+  function renderPdfToImages(file, onProgress){
+    if(file.size > 50*1024*1024) return Promise.resolve({tooBig:true});
+    return loadPdfJs().then(function(pdfjsLib){
+      return file.arrayBuffer().then(function(buf){
+        return pdfjsLib.getDocument({data: buf}).promise;
+      }).then(function(pdf){
+        var MAX_PAGES = 8;
+        var pages = Math.min(pdf.numPages, MAX_PAGES);
+        var out = [];
+        var chain = Promise.resolve();
+        var baseName = (file.name||'bill').replace(/\.[^.]+$/,'');
+        for(let p = 1; p <= pages; p++){
+          chain = chain.then(function(){
+            if(onProgress) onProgress('Reading page ' + p + ' of ' + pages + '...');
+            return pdf.getPage(p).then(function(page){
+              var vp = page.getViewport({scale: 1});
+              var scale = Math.min(2.2, 1600 / Math.max(vp.width, vp.height));
+              var v2 = page.getViewport({scale: scale});
+              var c = document.createElement('canvas');
+              c.width = Math.round(v2.width); c.height = Math.round(v2.height);
+              return page.render({canvasContext: c.getContext('2d'), viewport: v2}).promise.then(function(){
+                out.push({
+                  name: baseName + '-p' + p + '.jpg',
+                  type: 'image/jpeg',
+                  data: canvasToJpeg(c, .8)
+                });
+              });
+            });
+          });
+        }
+        return chain.then(function(){
+          return { list: out, truncated: pdf.numPages > MAX_PAGES, total_pages: pdf.numPages };
+        });
+      });
+    });
+  }
+
+  function compressImage(file, onProgress){
+    return new Promise(function(resolve, reject){
       if(!file) return resolve(null);
       if(file.type === 'application/pdf'){
-        if(file.size > 4*1024*1024){ resolve({tooBig:true}); return; }
-        var r = new FileReader();
-        r.onload = function(){ resolve({name:file.name, type:file.type, data:r.result.split(',')[1]}); };
-        r.readAsDataURL(file); return;
+        renderPdfToImages(file, onProgress).then(resolve).catch(reject);
+        return;
       }
       var img = new Image();
       var url = URL.createObjectURL(file);
@@ -536,8 +593,8 @@ footer a:hover{color:var(--tan-bright)}
         c.width = Math.round(img.width*scale); c.height = Math.round(img.height*scale);
         c.getContext('2d').drawImage(img,0,0,c.width,c.height);
         URL.revokeObjectURL(url);
-        var data = c.toDataURL('image/jpeg', .82).split(',')[1];
-        resolve({name:(file.name||'bill').replace(/\.[^.]+$/,'')+'.jpg', type:'image/jpeg', data:data});
+        var data = canvasToJpeg(c, .82);
+        resolve({ list: [{name:(file.name||'bill').replace(/\.[^.]+$/,'')+'.jpg', type:'image/jpeg', data:data}] });
       };
       img.onerror = function(){ resolve(null); };
       img.src = url;
@@ -560,14 +617,15 @@ footer a:hover{color:var(--tan-bright)}
     banner.className = 'form-banner';
     btn.disabled = true;
     setStatus('Preparing your bill...');
-    var file = form.bill.files[0];
-    compressImage(file).then(function(att){
+        var file = form.bill.files[0];
+    compressImage(file, function(msg){ setStatus(msg); }).then(function(att){
       if(att && att.tooBig){
         btn.disabled = false;
-        setStatus('That PDF is over 4MB.', 'err');
-        showBanner('error', 'That PDF is too large to send here. Snap a photo of the bill instead, or text it to 813-736-1913.');
+        setStatus('That file is over 50MB.', 'err');
+        showBanner('error', 'That file is too large even for him. Snap photos of the bill pages instead, or text them to 813-736-1913.');
         return;
       }
+      var attachments = att && att.list ? att.list : [];
       setStatus('Sending to Billhound...');
       return fetch('/api/send-bill', {
         method:'POST',
@@ -578,7 +636,8 @@ footer a:hover{color:var(--tan-bright)}
           phone: form.phone.value.trim(),
           sms_consent: form.sms_consent.checked,
           message: form.message.value.trim(),
-          attachment: att
+          attachments: attachments,
+          pdf_meta: att && att.total_pages ? {total_pages: att.total_pages, truncated: !!att.truncated} : null
         })
       }).then(function(res){
         if(!res.ok){
