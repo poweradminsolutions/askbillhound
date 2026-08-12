@@ -80,6 +80,12 @@ section{padding:44px 0}
 .btn{display:inline-block;font-weight:800;font-size:17px;background:var(--tan-bright);color:var(--navy);padding:17px 32px;border-radius:4px;text-decoration:none;border:none;cursor:pointer;font-family:'Archivo',sans-serif;box-shadow:0 6px 0 rgba(0,0,0,.35);transition:transform .12s ease,box-shadow .12s ease,background .12s ease}
 .btn:hover{background:var(--paper);transform:translateY(-2px);box-shadow:0 8px 0 rgba(0,0,0,.35)}
 .btn[disabled]{opacity:.6;cursor:wait;transform:none}
+#bf-status.err{color:#ff9d8a;font-weight:700}
+#bf-status.okmsg{color:#9ad29a;font-weight:700}
+.form-banner{display:none;margin-top:14px;padding:12px 14px;border-radius:4px;font-size:14.5px;line-height:1.5}
+.form-banner.show{display:block}
+.form-banner.error{background:rgba(192,57,43,.18);border:1px solid rgba(192,57,43,.6);color:#ffb4a6}
+.form-banner.success{background:rgba(90,160,90,.16);border:1px solid rgba(120,190,120,.55);color:#b9e3b9}
 .cta-note{font-family:'Courier Prime',monospace;font-size:13px;color:rgba(244,237,221,.65)}
 footer{background:var(--navy-deep);border-top:1px solid rgba(244,237,221,.12);padding:30px 0;font-size:14px;color:rgba(244,237,221,.6)}
 .foot-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
@@ -141,6 +147,7 @@ footer a{color:rgba(244,237,221,.85);text-decoration:none}
       <button class="btn" type="submit" id="bf-btn">Send him the bill</button>
       <span class="cta-note" id="bf-status">Takes 30 seconds &middot; membership confirmed automatically</span>
     </div>
+    <div class="form-banner" id="bf-banner" role="status" aria-live="polite"></div>
   </form>
 </div></section>
 
@@ -184,18 +191,31 @@ footer a{color:rgba(244,237,221,.85);text-decoration:none}
     });
   }
 
+  var banner = document.getElementById('bf-banner');
+  function showBanner(kind, msg){
+    banner.className = 'form-banner show ' + kind;
+    banner.textContent = msg;
+  }
+  function setStatus(msg, cls){
+    status.textContent = msg;
+    status.className = 'cta-note' + (cls ? ' ' + cls : '');
+  }
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
     if(form.company.value) return;
+    banner.className = 'form-banner';
     btn.disabled = true;
-    status.textContent = 'Sending it to him...';
+    setStatus('Preparing your bill...');
     var file = form.bill.files[0];
     compressImage(file).then(function(att){
       if(att && att.tooBig){
         btn.disabled = false;
-        status.textContent = 'That PDF is over 4MB. Try a photo of the bill instead.';
+        setStatus('That PDF is over 4MB.', 'err');
+        showBanner('error', 'That PDF is too large to send here. Snap a photo of the bill instead, or text it to 813-736-1913.');
         return;
       }
+      setStatus('Sending to Billhound...');
       return fetch('/api/send-bill', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
@@ -209,14 +229,22 @@ footer a{color:rgba(244,237,221,.85);text-decoration:none}
           attachment: att
         })
       }).then(function(res){
-        if(!res.ok) throw new Error('send failed');
+        if(!res.ok){
+          return res.json().catch(function(){ return {}; }).then(function(body){
+            var detail = body && body.error ? body.error : ('HTTP ' + res.status);
+            throw new Error(detail);
+          });
+        }
         form.reset();
         btn.textContent = 'He\u2019s on it';
-        status.textContent = 'Got it. He\u2019ll confirm your membership and reply by email, usually same day.';
+        setStatus('Sent.', 'okmsg');
+        showBanner('success', 'Got it. He\u2019s on the analysis and will reply to your email, usually same day. If you opted into texts, he may reply there too. Your membership gets confirmed automatically.');
       });
-    }).catch(function(){
+    }).catch(function(err){
       btn.disabled = false;
-      status.textContent = 'Something hiccuped. Try again in a minute.';
+      setStatus('Not sent.', 'err');
+      showBanner('error', 'The bill didn\u2019t go through (' + (err && err.message ? err.message : 'connection issue') + '). Try again in a minute, or text your bill to 813-736-1913.');
+      if(window.console) console.error('Billhound form error:', err);
     });
   });
 })();
