@@ -261,11 +261,11 @@ footer a{color:rgba(244,237,221,.85);text-decoration:none}
 
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    if(form.company.value) return;
+    if(form.elements.company.value) return;
     if(banner) banner.className = 'form-banner';
     btn.disabled = true;
     setStatus('Preparing your bill...');
-        var file = form.bill.files[0];
+        var file = form.elements.bill.files[0];
     compressImage(file, function(msg){ setStatus(msg); }).then(function(att){
       if(att && att.tooBig){
         btn.disabled = false;
@@ -279,11 +279,11 @@ footer a{color:rgba(244,237,221,.85);text-decoration:none}
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({
-          name: form.name.value.trim(),
-          email: form.email.value.trim(),
-          phone: form.phone.value.trim(),
-          sms_consent: form.sms_consent.checked,
-          message: form.message.value.trim(),
+          name: form.elements.name.value.trim(),
+          email: form.elements.email.value.trim(),
+          phone: form.elements.phone.value.trim(),
+          sms_consent: form.elements.sms_consent.checked,
+          message: form.elements.message.value.trim(),
           source: 'cardshield_page',
           attachments: attachments,
           pdf_meta: att && att.total_pages ? {total_pages: att.total_pages, truncated: !!att.truncated} : null
