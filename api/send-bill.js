@@ -57,23 +57,33 @@ export default async function handler(req, res) {
       attachment: att, // null when none
     };
 
-    // ---- Primary: Randy webhook ----
-    if (process.env.RANDY_WEBHOOK_URL) {
+    // ---- Webhook chain: Randy primary, Fred secondary. Same payload contract. ----
+    async function tryWebhook(url, label) {
+      if (!url) return false;
       try {
         const controller = new AbortController();
         const t = setTimeout(() => controller.abort(), 8000);
-        const r = await fetch(process.env.RANDY_WEBHOOK_URL, {
+        const r = await fetch(url, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
           signal: controller.signal,
         });
         clearTimeout(t);
-        if (r.ok) return res.status(200).json({ ok: true });
-        console.error('Randy webhook non-OK:', r.status);
+        if (r.ok) return true;
+        console.error(label + ' webhook non-OK:', r.status);
+        return false;
       } catch (err) {
-        console.error('Randy webhook unreachable:', err.message);
+        console.error(label + ' webhook unreachable:', err.message);
+        return false;
       }
+    }
+
+    if (await tryWebhook(process.env.RANDY_WEBHOOK_URL, 'Randy')) {
+      return res.status(200).json({ ok: true });
+    }
+    if (await tryWebhook(process.env.FRED_WEBHOOK_URL, 'Fred')) {
+      return res.status(200).json({ ok: true, via: 'fallback' });
     }
 
     // ---- Fallback: Mailgun email to BILL_INBOX ----
@@ -84,7 +94,7 @@ export default async function handler(req, res) {
     form.append('subject', `[WEBHOOK-FALLBACK] New bill from ${payload.customer.first_name}`);
     form.append(
       'text',
-      `Randy webhook was unreachable; processing needed.\n\n` +
+      `Randy and Fred webhooks both unreachable; manual processing needed.\n\n` +
       `Submission: ${payload.submission_id}\nSource: ${payload.source}\n` +
       `Name: ${payload.customer.first_name}\nEmail: ${payload.customer.email}\n` +
       `Phone: ${payload.customer.phone || '(not given)'}\n` +
