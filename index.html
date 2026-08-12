@@ -4,166 +4,198 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Billhound | He only gets paid when he wins</title>
-<meta name="description" content="Text Billhound a bill. He hunts down what you're overpaying and wins it back. If he finds nothing, you pay nothing.">
+<meta name="description" content="Send Billhound a bill. He hunts down what you're overpaying and wins it back. If he finds nothing, you pay nothing.">
+<link rel="icon" href="/assets/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="canonical" href="https://www.askbillhound.com/">
+<meta property="og:title" content="Billhound | Bill Negotiation Service | He Only Gets Paid When He Wins">
+<meta property="og:description" content="Send Billhound a bill. He hunts down what you're overpaying on cable, internet, wireless and home security bills and wins it back. No savings, no fee.">
+<meta property="og:image" content="https://www.askbillhound.com/assets/billhound-bill-negotiation-service.png">
+<meta property="og:url" content="https://www.askbillhound.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#16243a;
-  --navy-deep:#0e1829;
-  --paper:#f5efe3;
-  --paper-dim:#eae2d2;
+  --navy:#152238;
+  --navy-deep:#0c1524;
+  --paper:#f4eddd;
+  --ink:#1c2331;
   --tan:#c8935c;
-  --tan-bright:#e0a866;
-  --ink:#1d2431;
-  --red:#b6402f;
-  --line:rgba(22,36,58,.18);
+  --tan-bright:#e2a75f;
+  --red:#c0392b;
+  --line:rgba(28,35,49,.16);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
 body{
   font-family:'Archivo',sans-serif;
-  font-variation-settings:'wdth' 100;
   background:var(--navy);
   color:var(--paper);
-  line-height:1.6;
-  font-size:17px;
+  line-height:1.6;font-size:17px;
+  overflow-x:hidden;
 }
-.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
 .mono{font-family:'Courier Prime',monospace}
 
-/* ---------- header ---------- */
-header{
-  border-bottom:1px solid rgba(245,239,227,.14);
-  background:var(--navy);
-}
-.header-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
-.logo{font-weight:900;font-size:22px;letter-spacing:-.02em;color:var(--paper);text-decoration:none;font-variation-settings:'wdth' 75}
-.logo span{color:var(--tan-bright)}
-.header-cta{
-  font-family:'Courier Prime',monospace;font-weight:700;font-size:14px;
-  color:var(--navy);background:var(--tan-bright);
-  padding:10px 18px;text-decoration:none;border-radius:3px;
-}
+/* ================= header ================= */
+header{border-bottom:1px solid rgba(244,237,221,.14)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--paper)}
+.logo svg{width:40px;height:40px}
+.logo b{font-weight:900;font-size:21px;letter-spacing:-.02em;font-variation-settings:'wdth' 72}
+.logo b span{color:var(--tan-bright)}
+.header-cta{font-family:'Courier Prime',monospace;font-weight:700;font-size:13px;color:var(--navy);background:var(--tan-bright);padding:10px 16px;text-decoration:none;border-radius:3px}
 .header-cta:hover{background:var(--paper)}
 
-/* ---------- hero ---------- */
-.hero{padding:72px 0 80px;background:var(--navy)}
-.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
-.eyebrow{
-  font-family:'Courier Prime',monospace;font-size:13px;font-weight:700;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--tan-bright);margin-bottom:20px;
-}
+/* ================= hero ================= */
+.hero{padding:64px 0 88px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.eyebrow{font-family:'Courier Prime',monospace;font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--tan-bright);margin-bottom:18px}
 h1{
-  font-weight:900;font-size:clamp(34px,4.6vw,56px);line-height:1.06;
-  letter-spacing:-.025em;font-variation-settings:'wdth' 80;margin-bottom:22px;
+  font-weight:900;line-height:.98;letter-spacing:-.02em;
+  font-variation-settings:'wdth' 66;
+  font-size:clamp(44px,6.4vw,84px);
+  text-transform:uppercase;margin-bottom:22px;
 }
-h1 em{font-style:normal;color:var(--tan-bright)}
-.hero-sub{font-size:19px;color:rgba(245,239,227,.85);max-width:34em;margin-bottom:32px}
-.cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+h1 em{font-style:normal;color:var(--tan-bright);display:block}
+.hero-sub{font-size:19px;color:rgba(244,237,221,.85);max-width:32em;margin-bottom:30px}
+.cta-row{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
 .btn{
-  display:inline-block;font-weight:800;font-size:17px;letter-spacing:.01em;
-  background:var(--tan-bright);color:var(--navy);
-  padding:16px 30px;border-radius:4px;text-decoration:none;
-  transition:transform .12s ease, background .12s ease;
+  display:inline-block;font-weight:800;font-size:17px;background:var(--tan-bright);color:var(--navy);
+  padding:17px 32px;border-radius:4px;text-decoration:none;
+  box-shadow:0 6px 0 rgba(0,0,0,.35);
+  transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
 }
-.btn:hover{background:var(--paper);transform:translateY(-2px)}
+.btn:hover{background:var(--paper);transform:translateY(-2px);box-shadow:0 8px 0 rgba(0,0,0,.35)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.35)}
 .btn:focus-visible,a:focus-visible{outline:3px solid var(--tan-bright);outline-offset:3px}
-.cta-note{font-family:'Courier Prime',monospace;font-size:13px;color:rgba(245,239,227,.65)}
+.cta-note{font-family:'Courier Prime',monospace;font-size:13px;color:rgba(244,237,221,.65)}
 
-/* the marked-up bill: signature element */
+/* ---- the hound ---- */
+.hound-stage{position:relative;display:flex;justify-content:center}
+.hound-stage img.hound{width:min(100%,430px);height:auto;filter:drop-shadow(0 18px 40px rgba(0,0,0,.5))}
+/* sniff bob */
+.hound-head{transform-origin:52% 60%;animation:sniff 3.2s ease-in-out infinite}
+@keyframes sniff{0%,100%{transform:rotate(0deg) translateY(0)}40%{transform:rotate(1.6deg) translateY(3px)}60%{transform:rotate(-.8deg) translateY(1px)}}
+.hound-ear-l{transform-origin:38% 42%;animation:earL 3.2s ease-in-out infinite}
+.hound-ear-r{transform-origin:64% 42%;animation:earR 3.2s ease-in-out infinite}
+@keyframes earL{0%,100%{transform:rotate(0)}45%{transform:rotate(2.4deg)}}
+@keyframes earR{0%,100%{transform:rotate(0)}45%{transform:rotate(-2deg)}}
+
+/* ================= bill (signature) ================= */
 .bill{
-  background:var(--paper);color:var(--ink);
-  border-radius:4px;padding:26px 26px 30px;
-  font-family:'Courier Prime',monospace;font-size:14px;
-  transform:rotate(1.6deg);
-  box-shadow:0 24px 60px rgba(0,0,0,.45);
-  position:relative;
+  background:var(--paper);color:var(--ink);border-radius:4px;
+  padding:24px 24px 30px;font-family:'Courier Prime',monospace;font-size:14px;
+  transform:rotate(1.8deg);box-shadow:0 26px 60px rgba(0,0,0,.5);
+  position:relative;max-width:460px;margin:0 auto;
 }
-.bill-head{display:flex;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:14px;font-weight:700}
-.bill-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed rgba(29,36,49,.25)}
-.bill-row.cut span:last-child{position:relative;color:rgba(29,36,49,.55)}
-.bill-row.cut span:last-child::after{
-  content:"";position:absolute;left:-4px;right:-4px;top:52%;
-  border-top:2.5px solid var(--red);transform:rotate(-4deg);
+.bill-head{display:flex;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:9px;margin-bottom:12px;font-weight:700}
+.bill-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed rgba(28,35,49,.25)}
+.bill-row .price{position:relative}
+.bill-row.cut .price{color:rgba(28,35,49,.5)}
+.strike{
+  position:absolute;left:-5px;right:-5px;top:52%;height:0;
+  border-top:3px solid var(--red);transform:rotate(-4deg) scaleX(0);
+  transform-origin:left center;
 }
-.bill-note{color:var(--red);font-weight:700;font-size:12px;padding-left:12px}
+.on .strike{transition:transform .45s cubic-bezier(.7,0,.3,1);transform:rotate(-4deg) scaleX(1)}
+.bill-note{color:var(--red);font-weight:700;font-size:12px;padding-left:10px;opacity:0;transform:translateX(-6px)}
+.on .bill-note{transition:opacity .3s ease .35s, transform .3s ease .35s;opacity:1;transform:none}
 .stamp{
-  position:absolute;right:-14px;bottom:22px;
-  border:3.5px solid var(--red);color:var(--red);
-  font-weight:700;font-size:20px;letter-spacing:.06em;
-  padding:8px 16px;transform:rotate(-8deg);border-radius:3px;
-  background:rgba(245,239,227,.92);
+  position:absolute;right:-16px;bottom:18px;
+  border:4px solid var(--red);color:var(--red);
+  font-family:'Courier Prime',monospace;font-weight:700;font-size:22px;letter-spacing:.05em;
+  padding:9px 18px;border-radius:3px;background:rgba(244,237,221,.94);
+  transform:rotate(-8deg) scale(3);opacity:0;
 }
-.stamp small{display:block;font-size:11px;letter-spacing:.14em}
+.stamp small{display:block;font-size:11px;letter-spacing:.16em}
+.stamp.slam{animation:slam .38s cubic-bezier(.6,-.1,.3,1.4) forwards}
+@keyframes slam{
+  0%{transform:rotate(-14deg) scale(3);opacity:0}
+  70%{transform:rotate(-8deg) scale(.94);opacity:1}
+  100%{transform:rotate(-8deg) scale(1);opacity:1}
+}
+.stamp .num{display:inline-block;min-width:3.1em;text-align:left}
 
-/* ---------- section scaffolding ---------- */
-section{padding:76px 0}
+/* ================= sections ================= */
+section{padding:80px 0}
 .sec-paper{background:var(--paper);color:var(--ink)}
 .sec-deep{background:var(--navy-deep)}
 h2{
-  font-weight:900;font-size:clamp(26px,3.4vw,40px);line-height:1.1;
-  letter-spacing:-.02em;font-variation-settings:'wdth' 80;margin-bottom:18px;max-width:20em;
+  font-weight:900;font-size:clamp(30px,4.2vw,52px);line-height:1.02;
+  letter-spacing:-.02em;font-variation-settings:'wdth' 68;text-transform:uppercase;
+  margin-bottom:18px;max-width:18em;
 }
 .sec-paper .eyebrow{color:var(--red)}
 .lede{font-size:18px;max-width:38em}
-.sec-paper .lede{color:rgba(29,36,49,.8)}
+.sec-paper .lede{color:rgba(28,35,49,.8)}
 
-/* ---------- problem ---------- */
+/* reveal on scroll */
+.rv{opacity:0;transform:translateY(22px)}
+.rv.in{opacity:1;transform:none;transition:opacity .55s ease, transform .55s ease}
+
+/* problem */
 .creep-list{margin-top:38px;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:1px solid var(--line)}
 .creep{background:var(--paper);padding:26px 24px}
 .creep .mono{font-weight:700;color:var(--red);font-size:13px;letter-spacing:.1em;text-transform:uppercase}
-.creep h3{font-weight:800;font-size:19px;margin:8px 0 8px;letter-spacing:-.01em}
-.creep p{font-size:15px;color:rgba(29,36,49,.78)}
+.creep h3{font-weight:800;font-size:19px;margin:8px 0;letter-spacing:-.01em}
+.creep p{font-size:15px;color:rgba(28,35,49,.78)}
 
-/* ---------- how it works ---------- */
+/* steps */
 .steps{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 .step{border-top:3px solid var(--tan-bright);padding-top:18px}
 .step .mono{color:var(--tan-bright);font-weight:700;font-size:13px;letter-spacing:.14em}
-.step h3{font-weight:800;font-size:21px;margin:10px 0 10px;letter-spacing:-.01em}
-.step p{color:rgba(245,239,227,.8);font-size:15.5px}
+.step h3{font-weight:800;font-size:21px;margin:10px 0;letter-spacing:-.01em}
+.step p{color:rgba(244,237,221,.8);font-size:15.5px}
 
-/* ---------- the deal ---------- */
-.deal{
-  margin-top:40px;background:var(--paper);color:var(--ink);border-radius:4px;
-  padding:34px 34px;display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center;
-}
+/* deal */
+.deal{margin-top:44px;background:var(--paper);color:var(--ink);border-radius:4px;padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
 .deal-math{font-family:'Courier Prime',monospace;font-size:15px}
-.deal-math .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(29,36,49,.3)}
+.deal-math .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(28,35,49,.3)}
 .deal-math .row.total{border-bottom:none;border-top:2px solid var(--ink);font-weight:700;font-size:17px;margin-top:6px;padding-top:12px}
-.deal-copy h3{font-weight:900;font-size:24px;letter-spacing:-.02em;margin-bottom:12px}
-.deal-copy p{font-size:16px;color:rgba(29,36,49,.82);margin-bottom:12px}
+.deal-copy h3{font-weight:900;font-size:25px;letter-spacing:-.02em;margin-bottom:12px;font-variation-settings:'wdth' 72;text-transform:uppercase}
+.deal-copy p{font-size:16px;color:rgba(28,35,49,.82);margin-bottom:12px}
 .deal-copy p:last-child{margin-bottom:0}
 
-/* ---------- straight answers ---------- */
-.faq{margin-top:36px;display:grid;gap:0;border-top:1px solid var(--line)}
+/* faq */
+.faq{margin-top:36px;border-top:1px solid var(--line)}
 .qa{border-bottom:1px solid var(--line);padding:24px 0;display:grid;grid-template-columns:.9fr 1.4fr;gap:24px}
 .qa h3{font-weight:800;font-size:18px;letter-spacing:-.01em}
-.qa p{font-size:16px;color:rgba(29,36,49,.82)}
+.qa p{font-size:16px;color:rgba(28,35,49,.82)}
 
-/* ---------- transformation / final CTA ---------- */
-.final{background:var(--navy);text-align:left}
-.final .wrap{max-width:820px}
+/* final */
+.final .wrap{max-width:860px}
 .final h2{max-width:none}
-.final .lede{color:rgba(245,239,227,.85);margin-bottom:34px}
+.final .lede{color:rgba(244,237,221,.85);margin-bottom:34px}
+.final-grid{display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center}
+.final-grid svg{width:130px;height:auto}
 
-/* ---------- footer ---------- */
-footer{background:var(--navy-deep);border-top:1px solid rgba(245,239,227,.12);padding:36px 0;font-size:14px;color:rgba(245,239,227,.6)}
+footer{background:var(--navy-deep);border-top:1px solid rgba(244,237,221,.12);padding:34px 0;font-size:14px;color:rgba(244,237,221,.6)}
 .foot-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-footer a{color:rgba(245,239,227,.85);text-decoration:none}
+footer a{color:rgba(244,237,221,.85);text-decoration:none}
 footer a:hover{color:var(--tan-bright)}
 
-/* ---------- responsive ---------- */
-@media (max-width:860px){
-  .hero{padding:48px 0 64px}
-  .hero-grid{grid-template-columns:1fr;gap:44px}
-  .bill{transform:rotate(1deg);max-width:440px}
+@media (max-width:880px){
+  .hero{padding:44px 0 64px}
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .hound-stage img.hound{width:min(78%,340px)}
   .creep-list,.steps{grid-template-columns:1fr}
   .deal{grid-template-columns:1fr;padding:26px 22px}
   .qa{grid-template-columns:1fr;gap:8px;padding:20px 0}
+  .final-grid{grid-template-columns:1fr;justify-items:center;text-align:left}
   section{padding:56px 0}
+}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .hound-head,.hound-ear-l,.hound-ear-r{animation:none}
+  .rv{opacity:1;transform:none}
+  .strike{transform:rotate(-4deg) scaleX(1)!important;transition:none!important}
+  .bill-note{opacity:1!important;transform:none!important;transition:none!important}
+  .stamp{transform:rotate(-8deg) scale(1);opacity:1;animation:none!important}
 }
 </style>
 </head>
@@ -171,7 +203,10 @@ footer a:hover{color:var(--tan-bright)}
 
 <header>
   <div class="wrap header-inner">
-    <a class="logo" href="/">BILL<span>HOUND</span></a>
+    <a class="logo" href="/" aria-label="Billhound home">
+      <img src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="Billhound bill negotiation service logo, a bloodhound detective in a loosened tie" width="40" height="40" style="border-radius:50%">
+      <b>BILL<span>HOUND</span></b>
+    </a>
     <a class="header-cta" href="#send">SEND HIM A BILL</a>
   </div>
 </header>
@@ -181,23 +216,35 @@ footer a:hover{color:var(--tan-bright)}
   <div class="wrap hero-grid">
     <div>
       <div class="eyebrow">Askbillhound.com</div>
-      <h1>Big companies pad your bills because nobody calls them on it. <em>I call them on it.</em></h1>
-      <p class="hero-sub">I'm Billhound. Text me a photo of a bill. I hunt down what you're overpaying and I win it back. My cut comes out of the money I find. If I find nothing, you pay nothing.</p>
+      <h1>They pad your bills because nobody fights back. <em>He fights back.</em></h1>
+      <p class="hero-sub">Send Billhound a photo of a bill. He hunts down what you're overpaying and wins it back. His cut comes out of the money he finds. If he finds nothing, you pay nothing.</p>
       <div class="cta-row">
-        <a class="btn" href="#send">Send Billhound a bill</a>
+        <a class="btn" href="#send">Send him a bill</a>
         <span class="cta-note">No card. No account. No phone call.</span>
       </div>
     </div>
-    <div class="bill" role="img" aria-label="A cable bill marked up by Billhound with overcharges crossed out and a stamp reading Found: $412 per year">
+    <div class="hound-stage">
+      <img class="hound" src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="Billhound mascot, a world-weary bloodhound detective who negotiates lower cable, internet and phone bills" width="430" height="430" style="border-radius:8px">
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE EVIDENCE (animated bill) ============ -->
+<section class="sec-deep" id="evidence">
+  <div class="wrap">
+    <div class="eyebrow rv">Exhibit A</div>
+    <h2 class="rv">Watch him work a real bill.</h2>
+    <p class="lede rv" style="color:rgba(244,237,221,.8);margin-bottom:44px">This is what padding looks like. Three line items, none of which you agreed to, all of which he can smell from across the room.</p>
+    <div class="bill" id="bill" role="img" aria-label="A cable bill marked up by Billhound: expired promo uplift, modem rental, and a broadcast TV fee crossed out in red, with a stamp reading Found: $412 per year">
       <div class="bill-head"><span>CABLE / INTERNET</span><span>MONTHLY</span></div>
-      <div class="bill-row"><span>Internet 300Mbps</span><span>$79.99</span></div>
-      <div class="bill-row cut"><span>Promo expired uplift</span><span>$25.00</span></div>
+      <div class="bill-row"><span>Internet 300Mbps</span><span class="price">$79.99</span></div>
+      <div class="bill-row cut" data-cut><span>Promo expired uplift</span><span class="price">$25.00<i class="strike"></i></span></div>
       <div class="bill-note">&#8593; you never agreed to this</div>
-      <div class="bill-row cut"><span>Modem rental</span><span>$15.00</span></div>
+      <div class="bill-row cut" data-cut><span>Modem rental</span><span class="price">$15.00<i class="strike"></i></span></div>
       <div class="bill-note">&#8593; a $60 box, rented forever</div>
-      <div class="bill-row cut"><span>"Broadcast TV fee"</span><span>$8.25</span></div>
+      <div class="bill-row cut" data-cut><span>"Broadcast TV fee"</span><span class="price">$8.25<i class="strike"></i></span></div>
       <div class="bill-note">&#8593; a made-up word for more money</div>
-      <div class="stamp">FOUND: $412<small>PER YEAR</small></div>
+      <div class="stamp" id="stamp">FOUND: $<span class="num" id="tally">0</span><small>PER YEAR</small></div>
     </div>
   </div>
 </section>
@@ -205,10 +252,10 @@ footer a:hover{color:var(--tan-bright)}
 <!-- ============ PROBLEM / AGITATE ============ -->
 <section class="sec-paper">
   <div class="wrap">
-    <div class="eyebrow">The part they count on</div>
-    <h2>Your bill didn't get bigger because you bought more. It got bigger because you stayed.</h2>
-    <p class="lede">Cable, internet, phone, home security. They all run the same play: hook you with a promo rate, wait twelve months, then quietly ratchet it up. They have a name for it inside the building. It's called the loyalty tax, and it's priced on one bet: that you're too busy to sit on hold for 45 minutes and fight.</p>
-    <div class="creep-list">
+    <div class="eyebrow rv">The part they count on</div>
+    <h2 class="rv">Your bill didn't grow because you bought more. It grew because you stayed.</h2>
+    <p class="lede rv">Cable, internet, phone, home security. Same play everywhere: hook you with a promo rate, wait twelve months, quietly ratchet it up. Inside the building they call it the loyalty tax, and it's priced on one bet: that you're too busy to sit on hold for 45 minutes and fight.</p>
+    <div class="creep-list rv">
       <div class="creep">
         <div class="mono">Play #1</div>
         <h3>The expired promo</h3>
@@ -228,85 +275,90 @@ footer a:hover{color:var(--tan-bright)}
   </div>
 </section>
 
-<!-- ============ VALUE STACK / HOW IT WORKS ============ -->
+<!-- ============ HOW IT WORKS ============ -->
 <section class="sec-deep" id="how">
   <div class="wrap">
-    <div class="eyebrow">How the hunt works</div>
-    <h2>You send one text. I do the part you hate.</h2>
-    <div class="steps">
+    <div class="eyebrow rv">How the hunt works</div>
+    <h2 class="rv">You send one text. He does the part you hate.</h2>
+    <div class="steps rv">
       <div class="step">
         <div class="mono">STEP 1</div>
         <h3>Snap the bill</h3>
-        <p>Take a photo of any bill and text it to me. Cable, internet, wireless, home security. That's the whole job on your end. No forms, no login, no card.</p>
+        <p>Take a photo of any bill and send it. Cable, internet, wireless, home security. That's the whole job on your end. No forms, no login, no card.</p>
       </div>
       <div class="step">
         <div class="mono">STEP 2</div>
-        <h3>I hunt</h3>
-        <p>I read every line. I know which fees are padding, which promos expired, and what the company down the street charges. Then I come back with a number: exactly what I think I can win back.</p>
+        <h3>He hunts</h3>
+        <p>He reads every line. He knows which fees are padding, which promos expired, and what the company down the street charges. Then he comes back with a number: exactly what he thinks he can win back.</p>
       </div>
       <div class="step">
         <div class="mono">STEP 3</div>
-        <h3>We split the win</h3>
-        <p>You give me the go-ahead, I take the fight to them. When I win, you keep most of the savings and my share comes out of the found money. Your bill goes down more than my fee. Always.</p>
+        <h3>You split the win</h3>
+        <p>You give the go-ahead, he takes the fight to them. When he wins, you keep most of the savings and his share comes out of the found money. Your bill goes down more than his fee. Always.</p>
       </div>
     </div>
-    <div class="deal">
+    <div class="deal rv">
       <div class="deal-math" aria-label="Example of how the split works">
         <div class="row"><span>Your old bill</span><span>$128 / mo</span></div>
-        <div class="row"><span>Your bill after I win</span><span>$94 / mo</span></div>
+        <div class="row"><span>Your bill after he wins</span><span>$94 / mo</span></div>
         <div class="row"><span>Money found</span><span>$34 / mo</span></div>
         <div class="row"><span>Your share</span><span>$21 / mo</span></div>
-        <div class="row"><span>My share</span><span>$13 / mo</span></div>
+        <div class="row"><span>His share</span><span>$13 / mo</span></div>
         <div class="row total"><span>Out of your pocket</span><span>$0</span></div>
       </div>
       <div class="deal-copy">
         <h3>Here's the catch, in writing.</h3>
-        <p>There's always a catch, so here's mine: I keep a share of what I save you, for the first year of savings. That's it. That's the whole business.</p>
-        <p>I don't charge sign-up fees. I don't bill you monthly. I don't touch a dime that I didn't put in your pocket first. If I hunt and come back empty, you owe me nothing and I say so plainly.</p>
+        <p>There's always a catch, so here's his: he keeps a share of what he saves you, for the first year of savings. That's it. That's the whole business.</p>
+        <p>No sign-up fees. No monthly bill. He doesn't touch a dime he didn't put in your pocket first. If he hunts and comes back empty, you owe nothing, and he says so plainly.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ PROOF / STRAIGHT ANSWERS ============ -->
+<!-- ============ STRAIGHT ANSWERS ============ -->
 <section class="sec-paper">
   <div class="wrap">
-    <div class="eyebrow">Straight answers</div>
-    <h2>The questions you should be asking.</h2>
-    <div class="faq">
+    <div class="eyebrow rv">Straight answers</div>
+    <h2 class="rv">The questions you should be asking.</h2>
+    <div class="faq rv">
       <div class="qa">
         <h3>Is this legit?</h3>
-        <p>Fair question. Bill negotiation is a real industry, and the honest version of it works exactly one way: no money up front, paid only from verified savings. That's how I run. You'll see every number before anything happens, and you approve the fight before I start it.</p>
+        <p>Fair question. Bill negotiation is a real industry, and the honest version of it works exactly one way: no money up front, paid only from verified savings. That's how Billhound runs. You see every number before anything happens, and you approve the fight before it starts.</p>
       </div>
       <div class="qa">
-        <h3>How can you negotiate for me?</h3>
-        <p>You sign a one-page authorization that lets me deal with your provider on your behalf. Same thing a lawyer or a family member would use. You'll e-sign it from your phone in about a minute, and it only covers the bill you sent me.</p>
+        <h3>How can he negotiate for me?</h3>
+        <p>You sign a one-page authorization that lets him deal with your provider on your behalf. Same thing a lawyer or a family member would use. You e-sign it from your phone in about a minute, and it only covers the bill you sent.</p>
       </div>
       <div class="qa">
         <h3>Do I have to get on the phone?</h3>
-        <p>No. That's the point of me. I handle the hold music, the retention department, the "let me transfer you." You get a text when it's done.</p>
+        <p>No. That's the point of him. He handles the hold music, the retention department, the "let me transfer you." You get a text when it's done.</p>
       </div>
       <div class="qa">
         <h3>Will my service change?</h3>
-        <p>Not unless you say yes first. My first move is always the same service at a lower price. If a better deal means a change, I bring it to you and you decide. Nothing moves without your go-ahead.</p>
+        <p>Not unless you say yes first. His first move is always the same service at a lower price. If a better deal means a change, he brings it to you and you decide. Nothing moves without your go-ahead.</p>
       </div>
       <div class="qa">
-        <h3>Where are your reviews?</h3>
-        <p>I'm new, and I won't pretend otherwise. The first pack of hunts is underway right now, and real numbers from real bills get posted here as they land. No stock photos, no made-up names. If a company shows you a wall of five-star reviews the week they launched, ask who wrote them.</p>
+        <h3>What if he finds nothing?</h3>
+        <p>Then you pay nothing, and he tells you straight: your bill is clean. No fee, no follow-up sales pitch, no "well, actually." The only way he makes a dollar is by putting more than that dollar back in your pocket first.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ TRANSFORMATION + FINAL CTA ============ -->
+<!-- ============ FINAL CTA ============ -->
 <section class="final" id="send">
   <div class="wrap">
-    <div class="eyebrow">One text from now</div>
-    <h2>Every company in your life takes money out. Meet the one that puts it back.</h2>
-    <p class="lede">The bill is sitting in a drawer or an inbox right now. Padding and all. Thirty seconds to snap it and send it, and the worst case is I tell you your bill is clean and you pay nothing. The best case starts around $400 a year, every year, for a text.</p>
-    <div class="cta-row">
-      <a class="btn" href="mailto:fetch@askbillhound.com?subject=Here%27s%20my%20bill">Send Billhound a bill</a>
-      <span class="cta-note">Email a photo to fetch@askbillhound.com &middot; texting line coming soon</span>
+    <div class="final-grid">
+      <img src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="" aria-hidden="true" width="130" height="130" style="border-radius:8px">
+      <div>
+        <div class="eyebrow rv">One text from now</div>
+        <h2 class="rv">Every company in your life takes money out. Meet the one that puts it back.</h2>
+        <p class="lede rv">The bill is sitting in a drawer or an inbox right now, padding and all. Thirty seconds to snap it and send it. Worst case, he tells you your bill is clean and you pay nothing. Best case starts around $400 a year, every year, for a text.</p>
+        <div class="cta-row rv">
+          <a class="btn" href="mailto:fetch@askbillhound.com?subject=Here%27s%20my%20bill">Send him a bill</a>
+          <span class="cta-note">Email a photo to fetch@askbillhound.com &middot; texting line coming soon</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -317,6 +369,68 @@ footer a:hover{color:var(--tan-bright)}
     <div><a href="mailto:fetch@askbillhound.com">fetch@askbillhound.com</a></div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // generic reveals
+  var rv = document.querySelectorAll('.rv');
+  if(!reduced && 'IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.18});
+    rv.forEach(function(el){ io.observe(el); });
+  } else {
+    rv.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // bill sequence: strike lines one by one, then slam the stamp and count up
+  var bill = document.getElementById('bill');
+  var stamp = document.getElementById('stamp');
+  var tally = document.getElementById('tally');
+  var TARGET = 412;
+  var played = false;
+
+  function countUp(){
+    var t0 = null, DUR = 700;
+    function frame(ts){
+      if(!t0) t0 = ts;
+      var p = Math.min((ts - t0)/DUR, 1);
+      var eased = 1 - Math.pow(1-p, 3);
+      tally.textContent = Math.round(TARGET * eased);
+      if(p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function playBill(){
+    if(played) return; played = true;
+    if(reduced){ tally.textContent = TARGET; return; }
+    var cuts = bill.querySelectorAll('[data-cut]');
+    cuts.forEach(function(row, i){
+      setTimeout(function(){
+        row.classList.add('on');
+        var note = row.nextElementSibling;
+        if(note && note.classList.contains('bill-note')){
+          note.style.transition = 'opacity .3s ease .3s, transform .3s ease .3s';
+          note.style.opacity = 1;
+          note.style.transform = 'none';
+        }
+      }, 600 + i*650);
+    });
+    setTimeout(function(){ stamp.classList.add('slam'); countUp(); }, 600 + cuts.length*650 + 250);
+  }
+
+  if(reduced){ playBill(); }
+  else if('IntersectionObserver' in window){
+    var bio = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ playBill(); bio.unobserve(e.target);} });
+    },{threshold:.5});
+    bio.observe(bill);
+  } else { playBill(); }
+})();
+</script>
 
 </body>
 </html>
