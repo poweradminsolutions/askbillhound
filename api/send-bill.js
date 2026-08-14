@@ -86,10 +86,10 @@ export default async function handler(req, res) {
     }
 
     if (await tryWebhook(process.env.RANDY_WEBHOOK_URL, 'Randy')) {
-      return res.status(200).json({ ok: true });
+      return res.status(200).json({ ok: true, submission_id: payload.submission_id });
     }
     if (await tryWebhook(process.env.FRED_WEBHOOK_URL, 'Fred')) {
-      return res.status(200).json({ ok: true, via: 'fallback' });
+      return res.status(200).json({ ok: true, via: 'fallback', submission_id: payload.submission_id });
     }
 
     // ---- Fallback: Mailgun email to BILL_INBOX ----
@@ -120,7 +120,7 @@ export default async function handler(req, res) {
       console.error('Fallback mail failed:', mgRes.status, await mgRes.text());
       return res.status(502).json({ error: 'Delivery failed' });
     }
-    return res.status(200).json({ ok: true });
+    return res.status(200).json({ ok: true, submission_id: payload.submission_id });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: 'Server error' });

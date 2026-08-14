@@ -3,6 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1688881695533565');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1688881695533565&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WP7MGB61S3"></script>
 <script>
@@ -110,7 +128,10 @@ h1 em{font-style:normal;color:var(--tan-bright);display:block}
 .btn:hover{background:var(--paper);transform:translateY(-2px);box-shadow:0 8px 0 rgba(0,0,0,.35)}
 .btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.35)}
 .btn:focus-visible,a:focus-visible{outline:3px solid var(--tan-bright);outline-offset:3px}
-.cta-note{font-family:'Courier Prime',monospace;font-size:13px;color:rgba(244,237,221,.65)}
+.cta-note{font-family:'Courier Prime',monospace;font-size:13px;color:rgba(244,237,221,.65);display:block;margin-top:18px;line-height:1.7}
+.btn-sms{background:transparent;color:var(--paper);border:2px solid rgba(244,237,221,.42);box-shadow:none;font-size:16px;padding:15px 26px}
+.btn-sms:hover{background:rgba(244,237,221,.08);color:var(--paper);border-color:var(--tan-bright);box-shadow:none}
+.btn-sms:active{transform:translateY(1px);box-shadow:none}
 
 /* ---- the hound ---- */
 .hound-stage{position:relative;display:flex;justify-content:center}
@@ -299,13 +320,14 @@ footer a:hover{color:var(--tan-bright)}
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <div class="eyebrow">Askbillhound.com</div>
+      <div class="eyebrow">Free bill check</div>
       <h1>Your bills keep going up because nobody checks. <em>He checks. Free.</em></h1>
       <p class="hero-sub">Send Billhound a bill. He analyzes every line, free, no obligation, and shows you what looks negotiable and what it's probably worth. Then you choose: use the findings yourself, or hire him to fight the provider for you. If you hire him and he wins nothing, you pay nothing.</p>
       <div class="cta-row">
         <a class="btn" href="#send">Get my free bill analysis</a>
-        <span class="cta-note">No card. No account. No obligation.<br>Or text a photo of your bill to <a class="smslink" href="sms:+18137361913&body=Here%27s%20my%20bill">813-736-1913</a></span>
+        <a class="btn btn-sms" href="sms:+18137361913?&body=Here%27s%20my%20bill">Or text a photo to 813-736-1913</a>
       </div>
+      <p class="cta-note">No card. No account. No obligation.<br>Questions first? Ask Tess in the chat window.</p>
     </div>
     <div class="hound-stage">
       <img class="hound" src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="Billhound mascot, a world-weary bloodhound detective who negotiates lower cable, internet and phone bills" width="430" height="430" style="border-radius:8px">
@@ -464,7 +486,7 @@ footer a:hover{color:var(--tan-bright)}
         <p class="lede rv">The bill that jumped recently is the best place to start. Worst case, he tells you it's clean and you've lost thirty seconds.</p>
         <div class="textbox rv">
           <div class="tb-label">OPTION 1 &middot; TEXT IT &middot; FASTEST</div>
-          <div class="tb-body">Text a photo of your bill to <a class="smslink big" href="sms:+18137361913&body=Here%27s%20my%20bill">813-736-1913</a></div>
+          <div class="tb-body">Text a photo of your bill to <a class="smslink big" href="sms:+18137361913?&body=Here%27s%20my%20bill">813-736-1913</a></div>
           <div class="tb-sub">Snap it, send it, done. He replies by text.</div>
     <div class="fine-print">Send every page, front and back. The fine print likes to hide on the back, and he reads all of it.</div>
         </div>
@@ -697,6 +719,9 @@ footer a:hover{color:var(--tan-bright)}
             throw new Error(detail);
           });
         }
+        return res.json().catch(function(){ return {}; });
+      }).then(function(body){
+        if (window.__bhSubmitted) { window.__bhSubmitted(body && body.submission_id); }
         form.reset();
         btn.textContent = 'He\u2019s on it';
         setStatus('Sent.', 'okmsg');
@@ -709,6 +734,63 @@ footer a:hover{color:var(--tan-bright)}
       if(window.console) console.error('Billhound form error:', err);
     });
   });
+})();
+
+// ---- Meta event tracking ----
+(function(){
+  function fire(kind, name, params, opts){
+    if (typeof fbq !== 'function') return;
+    try { fbq(kind, name, params || {}, opts || {}); } catch(e){}
+  }
+  function custom(name, params, opts){ fire('trackCustom', name, params, opts); }
+
+  // Bill submitted. Standard Lead is the ad optimization target, custom
+  // BillSubmitted is for our own reporting. Same eventID on both so the
+  // browser event and the CAPI server event dedupe once CAPI ships.
+  window.__bhSubmitted = function(submissionId){
+    var opts = submissionId ? {eventID: submissionId} : {};
+    fire('track', 'Lead', {}, opts);
+    custom('BillSubmitted', {}, opts);
+  };
+
+  // TextClick. Delegated so it covers every sms: link on the page.
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    try { if (t && t.closest && t.closest('a[href^="sms:"]')) custom('TextClick'); } catch(err){}
+  }, true);
+
+  // TessChatStarted. Diagnostic only, never an optimization target.
+  var tessFired = false;
+  function tessStart(){ if (tessFired) return; tessFired = true; custom('TessChatStarted'); }
+
+  // Preferred path: widget dispatches this on the visitor's first message.
+  window.addEventListener('tess:first-message', tessStart);
+
+  // Fallback until the widget emits that event. A composer that is not inside
+  // our own bill form belongs to the chat widget, so a send from it counts.
+  function inWidget(el){
+    try {
+      if (!el || !el.closest) return false;
+      if (el.closest('#billform')) return false;
+      return !!el.closest('[id*="tess" i],[class*="tess" i],[id*="chat" i],[class*="chat" i]');
+    } catch(err){ return false; }
+  }
+  function hasText(el){ return !!(el && el.value && el.value.trim()); }
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Enter' || e.shiftKey) return;
+    var t = e.target, tag = t && t.tagName ? t.tagName.toLowerCase() : '';
+    if (tag !== 'textarea' && !(tag === 'input' && /^(text|search|)$/i.test(t.type || ''))) return;
+    if (hasText(t) && inWidget(t)) tessStart();
+  }, true);
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if (!t || !t.closest) return;
+    var btn = t.closest('button,[role="button"]');
+    if (!btn || !inWidget(btn)) return;
+    var host = btn.closest('[id*="tess" i],[class*="tess" i],[id*="chat" i],[class*="chat" i]');
+    var box = host && host.querySelector('textarea,input[type="text"]');
+    if (hasText(box)) tessStart();
+  }, true);
 })();
 </script>
 

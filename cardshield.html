@@ -3,6 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1688881695533565');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1688881695533565&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WP7MGB61S3"></script>
 <script>
@@ -136,7 +154,7 @@ footer a{color:rgba(244,237,221,.85);text-decoration:none}
 
   <div class="textbox">
     <div class="tb-label">OPTION 1 &middot; TEXT IT &middot; FASTEST</div>
-    <div class="tb-body">Text a photo of your bill to <a class="smslink big" href="sms:+18137361913&body=Card%20Shield%20member%2C%20here%27s%20my%20bill">813-736-1913</a></div>
+    <div class="tb-body">Text a photo of your bill to <a class="smslink big" href="sms:+18137361913?&body=Card%20Shield%20member%2C%20here%27s%20my%20bill">813-736-1913</a></div>
     <div class="tb-sub">Snap it, send it, done. He replies by text.</div>
     <div class="fine-print">Send every page, front and back. The fine print likes to hide on the back, and he reads all of it.</div>
   </div>
@@ -307,6 +325,9 @@ footer a{color:rgba(244,237,221,.85);text-decoration:none}
             throw new Error(detail);
           });
         }
+        return res.json().catch(function(){ return {}; });
+      }).then(function(body){
+        if (window.__bhSubmitted) { window.__bhSubmitted(body && body.submission_id); }
         form.reset();
         btn.textContent = 'He\u2019s on it';
         setStatus('Sent.', 'okmsg');
@@ -319,6 +340,63 @@ footer a{color:rgba(244,237,221,.85);text-decoration:none}
       if(window.console) console.error('Billhound form error:', err);
     });
   });
+})();
+
+// ---- Meta event tracking ----
+(function(){
+  function fire(kind, name, params, opts){
+    if (typeof fbq !== 'function') return;
+    try { fbq(kind, name, params || {}, opts || {}); } catch(e){}
+  }
+  function custom(name, params, opts){ fire('trackCustom', name, params, opts); }
+
+  // Bill submitted. Standard Lead is the ad optimization target, custom
+  // BillSubmitted is for our own reporting. Same eventID on both so the
+  // browser event and the CAPI server event dedupe once CAPI ships.
+  window.__bhSubmitted = function(submissionId){
+    var opts = submissionId ? {eventID: submissionId} : {};
+    fire('track', 'Lead', {}, opts);
+    custom('BillSubmitted', {}, opts);
+  };
+
+  // TextClick. Delegated so it covers every sms: link on the page.
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    try { if (t && t.closest && t.closest('a[href^="sms:"]')) custom('TextClick'); } catch(err){}
+  }, true);
+
+  // TessChatStarted. Diagnostic only, never an optimization target.
+  var tessFired = false;
+  function tessStart(){ if (tessFired) return; tessFired = true; custom('TessChatStarted'); }
+
+  // Preferred path: widget dispatches this on the visitor's first message.
+  window.addEventListener('tess:first-message', tessStart);
+
+  // Fallback until the widget emits that event. A composer that is not inside
+  // our own bill form belongs to the chat widget, so a send from it counts.
+  function inWidget(el){
+    try {
+      if (!el || !el.closest) return false;
+      if (el.closest('#billform')) return false;
+      return !!el.closest('[id*="tess" i],[class*="tess" i],[id*="chat" i],[class*="chat" i]');
+    } catch(err){ return false; }
+  }
+  function hasText(el){ return !!(el && el.value && el.value.trim()); }
+  document.addEventListener('keydown', function(e){
+    if (e.key !== 'Enter' || e.shiftKey) return;
+    var t = e.target, tag = t && t.tagName ? t.tagName.toLowerCase() : '';
+    if (tag !== 'textarea' && !(tag === 'input' && /^(text|search|)$/i.test(t.type || ''))) return;
+    if (hasText(t) && inWidget(t)) tessStart();
+  }, true);
+  document.addEventListener('click', function(e){
+    var t = e.target;
+    if (!t || !t.closest) return;
+    var btn = t.closest('button,[role="button"]');
+    if (!btn || !inWidget(btn)) return;
+    var host = btn.closest('[id*="tess" i],[class*="tess" i],[id*="chat" i],[class*="chat" i]');
+    var box = host && host.querySelector('textarea,input[type="text"]');
+    if (hasText(box)) tessStart();
+  }, true);
 })();
 </script>
 <script
