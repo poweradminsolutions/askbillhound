@@ -307,11 +307,11 @@ footer a:hover{color:var(--tan-bright)}
   <div class="wrap hero-grid">
     <div>
       <div class="eyebrow">Billhound for Business</div>
-      <h1>Every vendor bets nobody at your company checks the bill. <em>He checks. Free.</em></h1>
+      <h1>Many vendors bet nobody at your company checks the bill. <em>He checks. Free.</em></h1>
       <p class="hero-sub">Send Billhound a vendor bill. He reviews every line free, shows you what looks negotiable and what it's realistically worth, and if you hire him, he takes the fight to the vendor. His fee comes out of verified savings only. If he wins nothing, your business pays nothing.</p>
       <div class="cta-row">
-        <a class="btn" href="sms:+18137361913?&body=Here%27s%20a%20business%20bill">Text a photo of the bill</a>
-        <a class="btn btn-sms" href="mailto:fetch@askbillhound.com?subject=Business%20bill%20for%20review">Or email it to fetch@askbillhound.com</a>
+        <a class="btn" href="#send">Send him a vendor bill</a>
+        <a class="btn btn-sms" href="sms:+18137361913?&body=Here%27s%20a%20business%20bill">Or text a photo to 813-736-1913</a>
       </div>
       <p class="cta-note">No retainer. No card. No obligation.<br>One agreement per bill. Cancel anytime.</p>
     </div>
@@ -447,20 +447,31 @@ footer a:hover{color:var(--tan-bright)}
       <div class="tb-sub">Snap it, send it, done. He replies by text.</div>
     </div>
 
-    <div class="textbox rv">
-      <div class="tb-label">OPTION 2 &middot; EMAIL IT</div>
-      <div class="tb-body">Email the bill to <a class="smslink" href="mailto:fetch@askbillhound.com?subject=Business%20bill%20for%20review">fetch@askbillhound.com</a></div>
-      <div class="tb-sub">A full PDF is perfect. AP can forward it straight from the inbox. He replies by email.</div>
-    </div>
+    <div class="or-divider rv"><span>or</span></div>
 
-    <div class="textbox rv">
-      <div class="tb-label">OPTION 3 &middot; UPLOAD IT</div>
-      <div class="tb-body">Prefer a form? <a class="smslink" href="/#send">Upload the bill here</a></div>
-      <div class="tb-sub">Same free analysis, same hound.</div>
+    <div class="opt2-head rv">
+      <div class="tb-label">OPTION 2 &middot; UPLOAD IT</div>
+      <div class="tb-sub">Fill this out and attach the bill. He replies by email.</div>
+      <div class="fine-print">A full PDF straight from your AP inbox is perfect. Photos work too, just include every page, front and back.</div>
     </div>
+    <form id="billform" class="rv" autocomplete="on">
+      <div class="ff"><label for="bf-biz">Business name</label><input id="bf-biz" name="business" type="text" required maxlength="80" placeholder="Gulfview Dental, LLC"></div>
+      <div class="ff"><label for="bf-vendor">Vendor on the bill <span class="opt">(optional)</span></label><input id="bf-vendor" name="vendor" type="text" maxlength="80" placeholder="Spectrum Business"></div>
+      <div class="ff"><label for="bf-name">Your name</label><input id="bf-name" name="name" type="text" required maxlength="60" placeholder="Dana Whitfield"></div>
+      <div class="ff"><label for="bf-email">Your work email</label><input id="bf-email" name="email" type="email" required maxlength="120" placeholder="you@company.com"></div>
+      <div class="ff"><label for="bf-phone">Mobile number <span class="opt">(optional, if you want him to text you)</span></label><input id="bf-phone" name="phone" type="tel" maxlength="20" placeholder="813-555-0100" autocomplete="tel">
+      <label class="consent"><input type="checkbox" id="bf-sms" name="sms_consent" value="yes"><span>Text me updates about this bill review. Message frequency varies, message &amp; data rates may apply. Reply HELP for help, STOP to cancel anytime. Consent isn't required to use the service. See <a href="/privacy.html">Privacy</a> &amp; <a href="/terms.html">Terms</a>.</span></label></div>
+      <div class="ff"><label for="bf-file">The bill <span class="opt">(full PDF, or photos of every page, front and back)</span></label><input id="bf-file" name="bill" type="file" accept="image/*,.pdf"></div>
+      <div class="ff"><label for="bf-msg">Anything he should know? <span class="opt">(optional)</span></label><textarea id="bf-msg" name="message" rows="3" maxlength="1200" placeholder="Three locations on this account, the rate jumped at renewal in June..."></textarea></div>
+      <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
+      <div class="cta-row">
+        <button class="btn" type="submit" id="bf-btn">Get the free analysis</button>
+        <span class="cta-note" id="bf-status">Takes 30 seconds &middot; free, no obligation &middot; or text the bill to 813-736-1913</span>
+      </div>
+      <div class="form-banner" id="bf-banner" role="status" aria-live="polite"></div>
+    </form>
 
-    <p class="cta-note rv">Free analysis, no obligation, no card. Fees exist only if you hire him and only from verified savings.</p>
-  </div>
+    <p class="cta-note rv">No retainer. No card. Fees exist only if you hire him and only from verified savings.</p>
 </section>
 
 <footer>
@@ -486,66 +497,6 @@ footer a:hover{color:var(--tan-bright)}
 </script>
 
 <script>
-(function(){
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // generic reveals
-  var rv = document.querySelectorAll('.rv');
-  if(!reduced && 'IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
-    },{threshold:.18});
-    rv.forEach(function(el){ io.observe(el); });
-  } else {
-    rv.forEach(function(el){ el.classList.add('in'); });
-  }
-
-  // bill sequence: strike lines one by one, then slam the stamp and count up
-  var bill = document.getElementById('bill');
-  var stamp = document.getElementById('stamp');
-  var tally = document.getElementById('tally');
-  var TARGET = 412;
-  var played = false;
-
-  function countUp(){
-    var t0 = null, DUR = 700;
-    function frame(ts){
-      if(!t0) t0 = ts;
-      var p = Math.min((ts - t0)/DUR, 1);
-      var eased = 1 - Math.pow(1-p, 3);
-      tally.textContent = Math.round(TARGET * eased);
-      if(p < 1) requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  }
-
-  function playBill(){
-    if(played) return; played = true;
-    if(reduced){ tally.textContent = TARGET; return; }
-    var cuts = bill.querySelectorAll('[data-cut]');
-    cuts.forEach(function(row, i){
-      setTimeout(function(){
-        row.classList.add('on');
-        var note = row.nextElementSibling;
-        if(note && note.classList.contains('bill-note')){
-          note.style.transition = 'opacity .3s ease .3s, transform .3s ease .3s';
-          note.style.opacity = 1;
-          note.style.transform = 'none';
-        }
-      }, 600 + i*650);
-    });
-    setTimeout(function(){ stamp.classList.add('slam'); countUp(); }, 600 + cuts.length*650 + 250);
-  }
-
-  if(reduced){ playBill(); }
-  else if('IntersectionObserver' in window){
-    var bio = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ playBill(); bio.unobserve(e.target);} });
-    },{threshold:.5});
-    bio.observe(bill);
-  } else { playBill(); }
-})();
-
 // ---- bill form ----
 (function(){
   var form = document.getElementById('billform');
@@ -671,7 +622,11 @@ footer a:hover{color:var(--tan-bright)}
           email: form.elements.email.value.trim(),
           phone: form.elements.phone.value.trim(),
           sms_consent: form.elements.sms_consent.checked,
+          full_name: form.elements.name.value.trim(),
+          business_name: form.elements.business.value.trim(),
+          vendor_name: form.elements.vendor.value.trim(),
           message: form.elements.message.value.trim(),
+          source: 'business_page',
           attachments: attachments,
           pdf_meta: att && att.total_pages ? {total_pages: att.total_pages, truncated: !!att.truncated} : null
         })
@@ -688,7 +643,7 @@ footer a:hover{color:var(--tan-bright)}
         form.reset();
         btn.textContent = 'He\u2019s on it';
         setStatus('Sent.', 'okmsg');
-        showBanner('success', 'Got it. He\u2019s on the analysis and will reply to your email, usually same day. If you opted into texts, he may reply there too.');
+        showBanner('success', 'Got it. He\u2019s on the analysis and will reply to your work email, usually same day. If you opted into texts, he may reply there too.');
       });
     }).catch(function(err){
       btn.disabled = false;
@@ -698,7 +653,10 @@ footer a:hover{color:var(--tan-bright)}
     });
   });
 })();
+</script>
 
+
+<script>
 // ---- Meta event tracking ----
 (function(){
   function fire(kind, name, params, opts){
@@ -756,6 +714,7 @@ footer a:hover{color:var(--tan-bright)}
   }, true);
 })();
 </script>
+
 
 <script
   src="https://randy-webhooks.senditbytext.com/billhound-chat/tess-chat.js?v=20260814h"

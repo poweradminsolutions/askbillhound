@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, phone, sms_consent, message, attachment, attachments, pdf_meta, company, source } = req.body || {};
+    const { name, full_name, business_name, vendor_name, email, phone, sms_consent, message, attachment, attachments, pdf_meta, company, source } = req.body || {};
 
     // Honeypot: pretend success, deliver nothing.
     if (company) return res.status(200).json({ ok: true });
@@ -49,14 +49,22 @@ export default async function handler(req, res) {
       event: 'billhound_form_submission',
       submission_id: randomUUID(),
       received_at: new Date().toISOString(),
-      source: source === 'cardshield_page' ? 'cardshield_page' : 'web_form',
+      source: ['cardshield_page', 'business_page'].includes(source) ? source : 'web_form',
       customer: {
         first_name: clean(name, 60),
+        // Business leads submit one "Your name" field, so the full name lands
+        // here and first_name may hold both words. Null on consumer leads.
+        full_name: full_name ? clean(full_name, 60) : null,
         email: clean(email, 120).toLowerCase(),
         phone: clean(phone, 20).replace(/[^\d+()\-. ]/g, ''),
         sms_consent: !!sms_consent,
         sms_consent_at: sms_consent ? new Date().toISOString() : null,
       },
+      // Present only on business submissions. Maps straight to SIBT's
+      // Company Name field with no string parsing needed.
+      business: business_name
+        ? { name: clean(business_name, 80), vendor: vendor_name ? clean(vendor_name, 80) : null }
+        : null,
       message: clean(message, 1200),
       attachments: attList,
       attachment: attList[0] || null, // legacy field for receiver compatibility
@@ -102,7 +110,8 @@ export default async function handler(req, res) {
       'text',
       `Randy and Fred webhooks both unreachable; manual processing needed.\n\n` +
       `Submission: ${payload.submission_id}\nSource: ${payload.source}\n` +
-      `Name: ${payload.customer.first_name}\nEmail: ${payload.customer.email}\n` +
+      `Name: ${payload.customer.full_name || payload.customer.first_name}\nEmail: ${payload.customer.email}\n` +
+      (payload.business ? `Business: ${payload.business.name}\nVendor: ${payload.business.vendor || '(not given)'}\n` : '') +
       `Phone: ${payload.customer.phone || '(not given)'}\n` +
       `SMS consent: ${payload.customer.sms_consent ? 'YES ' + payload.customer.sms_consent_at : 'no'}\n\n` +
       `Message:\n${payload.message || '(none)'}\n\nAttachments: ${attList.length ? attList.map(a => a.filename).join(', ') : 'none'}`
