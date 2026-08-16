@@ -874,7 +874,7 @@ footer a:hover{color:var(--tan-bright)}
 // ---- bill-not-handy reminder capture ----
 (function(){
   // Flip to true once Randy's routing rule for source:'reminder_capture' is live.
-  var ENABLED = false;
+  var ENABLED = true;
 
   var COOKIE = 'bh_rem';
   var panel = document.getElementById('rem-panel');
@@ -1029,7 +1029,7 @@ footer a:hover{color:var(--tan-bright)}
   });
 
   // exposed for the test harness only
-  window.__bhRemind = {show:show, suppressed:suppressed, formBusy:formBusy, enabled:ENABLED};
+  window.__bhRemind = {show:show, suppressed:suppressed, formBusy:formBusy, get enabled(){ return ENABLED; }};
 })();
 </script>
 </body>
