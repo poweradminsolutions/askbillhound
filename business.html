@@ -243,6 +243,10 @@ h2{
 .or-divider{max-width:560px;display:flex;align-items:center;gap:14px;margin:22px 0;color:rgba(244,237,221,.55);font-family:'Courier Prime',monospace;font-weight:700;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
 .or-divider::before,.or-divider::after{content:"";flex:1;border-top:1px solid rgba(244,237,221,.2)}
 .fine-print{font-size:12.5px;color:rgba(244,237,221,.5);margin-top:8px;line-height:1.5}
+.trust-line{font-size:13px;line-height:1.6;color:rgba(244,237,221,.62);margin:2px 0 14px;max-width:46em}
+.close-line{font-size:16px;line-height:1.6;margin-top:18px;max-width:44em;color:rgba(28,35,49,.86)}
+.close-cta{color:#a8631f;font-weight:800;text-decoration:none;border-bottom:2px solid #a8631f;white-space:nowrap}
+.close-cta:hover{color:var(--ink);border-color:var(--ink)}
 .opt2-head{max-width:560px;margin-bottom:14px}
 .opt2-head .tb-sub{margin-top:4px}
 .ff{margin-bottom:16px}
@@ -308,7 +312,7 @@ footer a:hover{color:var(--tan-bright)}
     <div>
       <div class="eyebrow">Billhound for Business</div>
       <h1>Many vendors bet nobody at your company checks the bill. <em>He checks. Free.</em></h1>
-      <p class="hero-sub">Send Billhound a vendor bill. He reviews every line free, shows you what looks negotiable and what it's realistically worth, and if you hire him, he takes the fight to the vendor. His fee comes out of verified savings only. If he wins nothing, your business pays nothing.</p>
+      <p class="hero-sub">Send Billhound a vendor bill. He reviews every line free and comes back the same day with what's negotiable and what it's realistically worth, and if you hire him, he takes the fight to the vendor. His fee comes out of verified savings only. If he wins nothing, your business pays nothing.</p>
       <div class="cta-row">
         <a class="btn" href="#send">Send him a vendor bill</a>
         <a class="btn btn-sms" href="sms:+18137361913?&body=Here%27s%20a%20business%20bill">Or text a photo to 813-736-1913</a>
@@ -369,6 +373,7 @@ footer a:hover{color:var(--tan-bright)}
         <p>A $4,000 per month vendor bill drops to $3,000. That's $1,000 a month, $12,000 verified over twelve months, which lands in his lowest tier. His fee is 30%, $3,600. Your business keeps $8,400 of the first year.</p>
         <p>And month thirteen on, every dollar of the lower rate is yours free and clear. He gets paid on the first twelve months of a win, once, not forever.</p>
         <p>The fee follows what's verified, not the estimate. If the win comes in smaller, his cut shrinks with it. If the vendor reverses a negotiated reduction inside the first twelve months through no action of yours, the fee tied to the months you didn't receive is credited or refunded. That's in the agreement, not a promise on a web page.</p>
+        <p class="close-line">None of this applies until you've seen the free analysis. Step one costs nothing. <a class="close-cta" href="#send">Send the bill &rarr;</a></p>
       </div>
     </div>
   </div>
@@ -388,7 +393,7 @@ footer a:hover{color:var(--tan-bright)}
       <div class="step rv">
         <div class="mono">STEP 2</div>
         <h3>He analyzes it, free</h3>
-        <p>He reads every line and comes back with what stands out and a realistic savings range. Ranges, not promises. If the bill is clean, he says so, and you've spent nothing to find that out.</p>
+        <p>He reads every line and comes back with what stands out and a realistic savings range. Ranges, not promises. If the bill is clean, he says so, and you've spent nothing to find that out. You'll hear back in about 30 seconds that he's on it, and findings follow the same day. No onboarding, no discovery call, no deck.</p>
       </div>
       <div class="step rv">
         <div class="mono">STEP 3</div>
@@ -406,6 +411,18 @@ footer a:hover{color:var(--tan-bright)}
     <h2 class="rv">What he does, and what he never touches.</h2>
     <p class="lede rv">Billhound negotiates your vendor bills. That's the whole job, and the agreement draws the lines in writing.</p>
     <div class="faq">
+      <div class="qa rv">
+        <h3>Who deals with our vendor, you or us?</h3>
+        <p>He does, as your authorized representative under the one-bill agreement. Your AP contact isn't cc'd into a negotiation. Nothing about your service changes unless you approve it first.</p>
+      </div>
+      <div class="qa rv">
+        <h3>What does it cost?</h3>
+        <p>The analysis is free. If you hire him, his fee comes out of verified savings only, per the agreement for that one bill. If he wins nothing, you pay nothing. No retainer, ever.</p>
+      </div>
+      <div class="qa rv">
+        <h3>Can we send more than one bill?</h3>
+        <p>Yes, and each one gets its own agreement, so you control scope bill by bill. Start with the one from the Monday meeting.</p>
+      </div>
       <div class="qa rv">
         <h3>Who signs for the business?</h3>
         <p>Anyone authorized to bind it: an owner, an officer, a manager with authority. The agreement and the authorization are e-signed together from a phone, and they cover one bill each.</p>
@@ -461,8 +478,9 @@ footer a:hover{color:var(--tan-bright)}
       <div class="ff"><label for="bf-email">Your work email</label><input id="bf-email" name="email" type="email" required maxlength="120" placeholder="you@company.com"></div>
       <div class="ff"><label for="bf-phone">Mobile number <span class="opt">(optional, if you want him to text you)</span></label><input id="bf-phone" name="phone" type="tel" maxlength="20" placeholder="813-555-0100" autocomplete="tel">
       <label class="consent"><input type="checkbox" id="bf-sms" name="sms_consent" value="yes"><span>Text me updates about this bill review. Message frequency varies, message &amp; data rates may apply. Reply HELP for help, STOP to cancel anytime. Consent isn't required to use the service. See <a href="/privacy.html">Privacy</a> &amp; <a href="/terms.html">Terms</a>.</span></label></div>
-      <div class="ff"><label for="bf-file">The bill <span class="opt">(full PDF, or photos of every page, front and back)</span></label><input id="bf-file" name="bill" type="file" accept="image/*,.pdf"></div>
       <div class="ff"><label for="bf-msg">Anything he should know? <span class="opt">(optional)</span></label><textarea id="bf-msg" name="message" rows="3" maxlength="1200" placeholder="Three locations on this account, the rate jumped at renewal in June..."></textarea></div>
+      <p class="trust-line">Your invoice goes straight to Billhound over a secure connection, stays in the U.S., and is seen by nobody who doesn't need to see it. Never shared, never sold. Deleted on request.</p>
+      <div class="ff"><label for="bf-file">The bill <span class="opt">(full PDF, or photos of every page, front and back)</span></label><input id="bf-file" name="bill" type="file" accept="image/*,.pdf"></div>
       <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
       <div class="cta-row">
         <button class="btn" type="submit" id="bf-btn">Get the free analysis</button>
@@ -643,7 +661,7 @@ footer a:hover{color:var(--tan-bright)}
         form.reset();
         btn.textContent = 'He\u2019s on it';
         setStatus('Sent.', 'okmsg');
-        showBanner('success', 'Got it. He\u2019s on the analysis and will reply to your work email, usually same day. If you opted into texts, he may reply there too.');
+        showBanner('success', 'Got it. He\u2019s reading the invoice right now. You\u2019ll hear back shortly at your work email, usually the same day.');
       });
     }).catch(function(err){
       btn.disabled = false;
