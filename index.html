@@ -257,6 +257,20 @@ h2{
 .or-divider{max-width:560px;display:flex;align-items:center;gap:14px;margin:22px 0;color:rgba(244,237,221,.55);font-family:'Courier Prime',monospace;font-weight:700;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
 .or-divider::before,.or-divider::after{content:"";flex:1;border-top:1px solid rgba(244,237,221,.2)}
 .fine-print{font-size:12.5px;color:rgba(244,237,221,.5);margin-top:8px;line-height:1.5}
+.close-line{font-size:17px;line-height:1.6;margin-top:26px;max-width:44em}
+.sec-deep .close-line,.final .close-line{color:rgba(244,237,221,.88)}
+.close-cta{color:var(--tan-bright);font-weight:800;text-decoration:none;border-bottom:2px solid var(--tan-bright);white-space:nowrap}
+.close-cta:hover{color:var(--paper);border-color:var(--paper)}
+.trust-line{font-size:13px;line-height:1.6;color:rgba(244,237,221,.62);margin:2px 0 14px;max-width:46em}
+/* Part 8b: on touch-sized viewports the text path is the hero action. */
+@media (max-width:880px){
+  .textbox{border-style:solid;border-width:2px;border-color:rgba(226,167,95,.75);background:rgba(244,237,221,.09);padding:24px 20px}
+  .textbox .tb-body{font-size:18px}
+  .textbox .smslink.big{display:block;margin-top:14px;background:var(--tan-bright);color:var(--navy);border-bottom:none;border-radius:6px;padding:17px 16px;text-align:center;font-size:21px;letter-spacing:-.01em;box-shadow:0 5px 0 rgba(0,0,0,.35)}
+  .textbox .smslink.big:hover{color:var(--navy)}
+  .opt2-head .tb-label,.opt2-head .tb-sub{opacity:.82}
+  .or-divider{margin:26px 0}
+}
 .opt2-head{max-width:560px;margin-bottom:14px}
 .opt2-head .tb-sub{margin-top:4px}
 .ff{margin-bottom:16px}
@@ -336,12 +350,12 @@ footer a:hover{color:var(--tan-bright)}
     <div>
       <div class="eyebrow">Free bill check</div>
       <h1>Your bills keep going up because nobody checks. <em>He checks. Free.</em></h1>
-      <p class="hero-sub">Send Billhound a bill. He analyzes every line, free, no obligation, and shows you what looks negotiable and what it's probably worth. Then you choose: use the findings yourself, or hire him to fight the provider for you. If you hire him and he wins nothing, you pay nothing.</p>
+      <p class="hero-sub">Send him the bill that's been creeping up. He's on it in seconds, and comes back fast with what's padding it and what it's worth. Free, whether or not you ever hire him.</p>
       <div class="cta-row">
         <a class="btn" href="#send">Get my free bill analysis</a>
         <a class="btn btn-sms" href="sms:+18137361913?&body=Here%27s%20my%20bill">Or text a photo to 813-736-1913</a>
       </div>
-      <p class="cta-note">No card. No account. No obligation.<br>Questions first? Ask Tess in the chat window.</p>
+      <p class="cta-note">No card. No account. No obligation. Never sold, ever.<br>Questions first? Ask Tess in the chat window.</p>
     </div>
     <div class="hound-stage">
       <img class="hound" src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="Billhound mascot, a world-weary bloodhound detective who negotiates lower cable, internet and phone bills" width="430" height="430" style="border-radius:8px">
@@ -364,8 +378,9 @@ footer a:hover{color:var(--tan-bright)}
       <div class="bill-note">&#8593; a $60 box, rented forever</div>
       <div class="bill-row cut" data-cut><span>"Broadcast TV fee"</span><span class="price">$8.25<i class="strike"></i></span></div>
       <div class="bill-note">&#8593; a made-up word for more money</div>
-      <div class="stamp" id="stamp">FOUND: $<span class="num" id="tally">0</span><small>PER YEAR</small></div>
+      <div class="stamp" id="stamp">FOUND: $<span class="num" id="tally">412</span><small>PER YEAR</small></div>
     </div>
+    <p class="close-line rv">That's one bill. Yours takes him minutes. <a class="close-cta" href="#send">Send it &rarr;</a></p>
   </div>
 </section>
 
@@ -374,25 +389,27 @@ footer a:hover{color:var(--tan-bright)}
   <div class="wrap">
     <div class="eyebrow rv">The part they count on</div>
     <h2 class="rv">Your bill didn't grow because you bought more. It grew because you stayed.</h2>
-    <p class="lede rv">Cable, internet, phone, home security. Same play everywhere: hook you with a promo rate, wait twelve months, quietly ratchet it up. Inside the building they call it the loyalty tax, and it's priced on one bet: that you're too busy to sit on hold for 45 minutes and fight.</p>
+    <p class="lede rv">Pull up your last bill. Not the amount you pay, the one before that, from a year ago. Bet it's $30 to $50 higher now, and you never ordered a thing.</p>
+    <p class="lede rv">That's not inflation. That's a strategy with a name. Inside the industry they call it the loyalty tax, and it's priced on one bet: that you're too busy to sit on hold for 45 minutes and fight about it.</p>
     <div class="creep-list rv">
       <div class="creep">
         <div class="mono">Play #1</div>
         <h3>The expired promo</h3>
-        <p>The rate you signed up for was never the real rate. The real rate shows up in month 13, and it arrives without a phone call.</p>
+        <p>The rate you signed up for was never the real rate. The real one shows up in month 13, no call, no email. Average jump: $25/month. That's $300 a year for staying.</p>
       </div>
       <div class="creep">
         <div class="mono">Play #2</div>
         <h3>The rented box</h3>
-        <p>That $15/month "equipment fee" is a $60 modem you've now paid for six times. They'll keep charging until someone says stop.</p>
+        <p>That $15/month "equipment fee" is a $60 modem you've now bought six times over. They'll charge it forever, because forever is the plan.</p>
       </div>
       <div class="creep">
         <div class="mono">Play #3</div>
         <h3>The invented fee</h3>
-        <p>"Broadcast TV fee." "Regional sports fee." "Network enhancement." Line items built to sound official so you don't question them.</p>
+        <p>"Broadcast TV fee." "Regional sports fee." Line items built to sound official so you don't ask. Ask anyway. They're negotiable, and the provider knows it.</p>
       </div>
     </div>
   </div>
+    <p class="close-line rv">Add it up and the average household is quietly overpaying $30 to $60 a month. Billhound finds your number in one free look. Send the bill and see. <a class="close-cta" href="#send">Send him a bill &rarr;</a></p>
 </section>
 
 <!-- ============ HOW IT WORKS ============ -->
@@ -404,17 +421,17 @@ footer a:hover{color:var(--tan-bright)}
       <div class="step">
         <div class="mono">STEP 1</div>
         <h3>Send a bill</h3>
-        <p>Snap a photo, text it or send it below. Cable, internet, wireless, home security, medical, dental, any bill that's bugging you, monthly or one-time. That's the whole job on your end.</p>
+        <p>Snap a photo, text it or send it below. Cable, internet, wireless, home security, medical, dental, any bill that's bugging you, monthly or one-time. That's the whole job on your end. You'll hear back in about 30 seconds that he's on it, and the findings follow fast.</p>
       </div>
       <div class="step">
         <div class="mono">STEP 2</div>
-        <h3>He analyzes it, free</h3>
-        <p>He reads every line and comes back with what stands out and a realistic savings range. Ranges, not promises. If the bill is clean, he says so.</p>
+        <h3>He comes back in minutes</h3>
+        <p>Every line, read. What stands out, what it's realistically worth, and a straight answer if the bill is clean. Ranges, not promises.</p>
       </div>
       <div class="step">
         <div class="mono">STEP 3</div>
-        <h3>You choose</h3>
-        <p>Take the findings and call the provider yourself, free, done. Or hire Billhound to negotiate for you. He only gets paid from savings he actually wins.</p>
+        <h3>You'll know before you've finished your coffee</h3>
+        <p>He texts or emails the findings. What's padded, what it's worth, and what you can say to the provider. What you do with it is entirely up to you.</p>
       </div>
     </div>
     <div class="choice-intro rv"><p class="lede" style="color:rgba(244,237,221,.85);margin:44px 0 22px">After the analysis, there are two ways to go. Both are fine with him.</p></div>
@@ -450,6 +467,7 @@ footer a:hover{color:var(--tan-bright)}
           <li><strong>Tiny wins are free.</strong> If a win comes in under $25, he waives the fee and tells you so. Too small to charge for.</li>
         </ul>
         <p>The final fee follows what's verified, not the estimate. If the win comes in smaller, his cut shrinks with it. If there's no win, there's no fee. Some services charge less because they do less. He signs real authorizations, sends real letters, and doesn't bill a cent until the savings show up on your actual bill.</p>
+        <p class="close-line">And none of this applies until you've seen your free analysis and chosen. Step one costs nothing. <a class="close-cta" href="#send">Get the free look &rarr;</a></p>
       </div>
     </div>
   </div>
@@ -466,8 +484,12 @@ footer a:hover{color:var(--tan-bright)}
         <p>Yes, with no obligation attached. He analyzes the bill, shows you what stands out and the realistic range, and you can walk away with it. The free analysis is the front door, not a trap. He'd rather be the guy who told you the truth about your bill than the guy who held it hostage.</p>
       </div>
       <div class="qa">
+        <h3>Who sees my bill?</h3>
+        <p>Almost nobody, and that's by design. Your bill travels over a secure connection and gets analyzed right here in the U.S. It's not emailed around an office or shipped to an offshore processing center the way some bill services do it. No prying eyes, no reselling, no marketing lists. The account number on it is useless to us and we treat it that way. And if you want it deleted after your analysis, just ask, text or email, and it's done.</p>
+      </div>
+      <div class="qa">
         <h3>What's the catch on the free analysis?</h3>
-        <p>He's betting some people will look at the findings, picture 45 minutes on hold with the retention department, and hire him to do it instead. That's the whole business model. If you'd rather make the call yourself, the findings are yours.</p>
+        <p>Some people take the findings and make the call themselves. Some look at 45 minutes of hold music and hand it to him. Both happen every day, and both are fine. The free analysis is how you find out which one you are.</p>
       </div>
       <div class="qa">
         <h3>If I hire him, how can he negotiate for me?</h3>
@@ -497,7 +519,7 @@ footer a:hover{color:var(--tan-bright)}
       <div>
         <div class="eyebrow rv">One text from now</div>
         <h2 class="rv">Get the free analysis.</h2>
-        <p class="lede rv">The bill that jumped recently is the best place to start. Worst case, he tells you it's clean and you've lost thirty seconds.</p>
+        <p class="lede rv">The bill that jumped recently is the best place to start. Send it now. He'll come back in minutes with what's padded and what it's worth. Worst case: your bill is clean and you know it.</p>
         <div class="textbox rv">
           <div class="tb-label">OPTION 1 &middot; TEXT IT &middot; FASTEST</div>
           <div class="tb-body">Text a photo of your bill to <a class="smslink big" href="sms:+18137361913?&body=Here%27s%20my%20bill">813-736-1913</a></div>
@@ -515,8 +537,9 @@ footer a:hover{color:var(--tan-bright)}
           <div class="ff"><label for="bf-email">Your email</label><input id="bf-email" name="email" type="email" required maxlength="120" placeholder="you@email.com"></div>
           <div class="ff"><label for="bf-phone">Mobile number <span class="opt">(optional, if you want him to text you)</span></label><input id="bf-phone" name="phone" type="tel" maxlength="20" placeholder="813-555-0100" autocomplete="tel">
           <label class="consent"><input type="checkbox" id="bf-sms" name="sms_consent" value="yes"><span>Text me updates about my bill review. Message frequency varies, message &amp; data rates may apply. Reply HELP for help, STOP to cancel anytime. Consent isn't required to use the service. See <a href="/privacy.html">Privacy</a> &amp; <a href="/terms.html">Terms</a>.</span></label></div>
-          <div class="ff"><label for="bf-file">Your bill <span class="opt">(full PDF, or photos of every page, front and back)</span></label><input id="bf-file" name="bill" type="file" accept="image/*,.pdf"></div>
           <div class="ff"><label for="bf-msg">Anything he should know? <span class="opt">(optional)</span></label><textarea id="bf-msg" name="message" rows="3" maxlength="1200" placeholder="It's a Spectrum bill, it jumped $40 last month..."></textarea></div>
+          <p class="trust-line">Your bill goes straight to Billhound over a secure connection, stays in the U.S., and is seen by nobody who doesn't need to see it. Never sold. Deleted on request.</p>
+          <div class="ff"><label for="bf-file">Your bill <span class="opt">(full PDF, or photos of every page, front and back)</span></label><input id="bf-file" name="bill" type="file" accept="image/*,.pdf"></div>
           <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="company" tabindex="-1" autocomplete="off"></label></div>
           <div class="cta-row">
             <button class="btn" type="submit" id="bf-btn">Get my free analysis</button>
@@ -560,6 +583,7 @@ footer a:hover{color:var(--tan-bright)}
 
   function countUp(){
     var t0 = null, DUR = 700;
+    tally.textContent = '0';
     function frame(ts){
       if(!t0) t0 = ts;
       var p = Math.min((ts - t0)/DUR, 1);
@@ -572,6 +596,7 @@ footer a:hover{color:var(--tan-bright)}
 
   function playBill(){
     if(played) return; played = true;
+    if(!bill || !stamp || !tally) return;
     if(reduced){ tally.textContent = TARGET; return; }
     var cuts = bill.querySelectorAll('[data-cut]');
     cuts.forEach(function(row, i){
@@ -588,7 +613,8 @@ footer a:hover{color:var(--tan-bright)}
     setTimeout(function(){ stamp.classList.add('slam'); countUp(); }, 600 + cuts.length*650 + 250);
   }
 
-  if(reduced){ playBill(); }
+  if(!bill || !stamp || !tally){ /* markup changed: leave the printed 412 alone */ }
+  else if(reduced){ playBill(); }
   else if('IntersectionObserver' in window){
     var bio = new IntersectionObserver(function(entries){
       entries.forEach(function(e){ if(e.isIntersecting){ playBill(); bio.unobserve(e.target);} });
@@ -739,7 +765,7 @@ footer a:hover{color:var(--tan-bright)}
         form.reset();
         btn.textContent = 'He\u2019s on it';
         setStatus('Sent.', 'okmsg');
-        showBanner('success', 'Got it. He\u2019s on the analysis and will reply to your email, usually same day. If you opted into texts, he may reply there too.');
+        showBanner('success', 'Got it. He\u2019s reading your bill right now. You\u2019ll hear back shortly by email, usually within the hour.');
       });
     }).catch(function(err){
       btn.disabled = false;
