@@ -113,6 +113,14 @@ section{padding:44px 0}
 .cta-note{font-family:'Courier Prime',monospace;font-size:13px;color:rgba(244,237,221,.65)}
 footer{background:var(--navy-deep);border-top:1px solid rgba(244,237,221,.12);padding:30px 0;font-size:14px;color:rgba(244,237,221,.6)}
 .foot-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+/* The chat widget anchors to the bottom of the viewport and its container can
+   sit over the footer on phones, swallowing taps. Clear that zone and make the
+   links proper tap targets. */
+@media (max-width:880px){
+  footer{padding-bottom:120px}
+  .foot-inner{flex-direction:column;gap:14px}
+  .foot-inner a{display:inline-block;padding:10px 2px;position:relative;z-index:2}
+}
 footer a{color:rgba(244,237,221,.85);text-decoration:none}
 .affil{font-size:12.5px;color:rgba(244,237,221,.45);margin-top:10px}
 @media (max-width:760px){.hero-grid{grid-template-columns:1fr;gap:24px}.hero-grid img{width:110px;height:110px}.steps{grid-template-columns:1fr}.qa{grid-template-columns:1fr;gap:8px}}

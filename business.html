@@ -271,6 +271,14 @@ button.btn[disabled]{opacity:.6;cursor:wait;transform:none}
 .form-banner.success{background:rgba(90,160,90,.16);border:1px solid rgba(120,190,120,.55);color:#b9e3b9}
 footer{background:var(--navy-deep);border-top:1px solid rgba(244,237,221,.12);padding:34px 0;font-size:14px;color:rgba(244,237,221,.6)}
 .foot-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+/* The chat widget anchors to the bottom of the viewport and its container can
+   sit over the footer on phones, swallowing taps. Clear that zone and make the
+   links proper tap targets. */
+@media (max-width:880px){
+  footer{padding-bottom:120px}
+  .foot-inner{flex-direction:column;gap:14px}
+  .foot-inner a{display:inline-block;padding:10px 2px;position:relative;z-index:2}
+}
 footer a{color:rgba(244,237,221,.85);text-decoration:none}
 footer a:hover{color:var(--tan-bright)}
 
