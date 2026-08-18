@@ -258,6 +258,9 @@ h2{
 .or-divider::before,.or-divider::after{content:"";flex:1;border-top:1px solid rgba(244,237,221,.2)}
 .fine-print{font-size:12.5px;color:rgba(244,237,221,.5);margin-top:8px;line-height:1.5}
 .close-line{font-size:17px;line-height:1.6;margin-top:26px;max-width:44em}
+.close-btn-row{margin-top:22px}
+/* .btn:hover fades to --paper, which is this section's own background. */
+.sec-paper .btn:hover{background:var(--navy);color:var(--paper)}
 .sec-deep .close-line,.final .close-line{color:rgba(244,237,221,.88)}
 .close-cta{color:var(--tan-bright);font-weight:800;text-decoration:none;border-bottom:2px solid var(--tan-bright);white-space:nowrap}
 .close-cta:hover{color:var(--paper);border-color:var(--paper)}
@@ -408,8 +411,9 @@ footer a:hover{color:var(--tan-bright)}
         <p>"Broadcast TV fee." "Regional sports fee." Line items built to sound official so you don't ask. Ask anyway. They're negotiable, and the provider knows it.</p>
       </div>
     </div>
+    <p class="close-line rv">Add it up and the average household is quietly overpaying $30 to $60 a month. Billhound finds your number in one free look. Send the bill and see.</p>
+    <p class="close-btn-row rv"><a class="btn" href="#send">Send him a bill</a></p>
   </div>
-    <p class="close-line rv">Add it up and the average household is quietly overpaying $30 to $60 a month. Billhound finds your number in one free look. Send the bill and see. <a class="close-cta" href="#send">Send him a bill &rarr;</a></p>
 </section>
 
 <!-- ============ HOW IT WORKS ============ -->
@@ -467,6 +471,7 @@ footer a:hover{color:var(--tan-bright)}
           <li><strong>Tiny wins are free.</strong> If a win comes in under $25, he waives the fee and tells you so. Too small to charge for.</li>
         </ul>
         <p>The final fee follows what's verified, not the estimate. If the win comes in smaller, his cut shrinks with it. If there's no win, there's no fee. Some services charge less because they do less. He signs real authorizations, sends real letters, and doesn't bill a cent until the savings show up on your actual bill.</p>
+        <p class="close-line">If you go the DIY route, everything you need to make the call yourself is included or offered as a small optional add-on. Nothing is ever required beyond the free look.</p>
         <p class="close-line">And none of this applies until you've seen your free analysis and chosen. Step one costs nothing. <a class="close-cta" href="#send">Get the free look &rarr;</a></p>
       </div>
     </div>
