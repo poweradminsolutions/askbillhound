@@ -804,6 +804,11 @@ footer a:hover{color:var(--tan-bright)}
     var opts = submissionId ? {eventID: submissionId} : {};
     fire('track', 'Lead', {}, opts);
     custom('BillSubmitted', {}, opts);
+    // GA4 twin of Lead. Confirmed bill submissions only — reminder capture
+    // (ReminderCaptured) stays Meta-only and must never fire this.
+    if (typeof gtag === 'function') {
+      try { gtag('event', 'generate_lead', { method: 'bill_submission' }); } catch(e){}
+    }
   };
 
   // TextClick. Delegated so it covers every sms: link on the page.
