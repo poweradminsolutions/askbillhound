@@ -48,6 +48,7 @@ body{font-family:'Archivo',sans-serif;background:var(--navy);color:var(--paper);
 .mono{font-family:'Courier Prime',monospace}
 header{border-bottom:1px solid rgba(244,237,221,.14)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+picture{display:contents}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--paper)}
 .logo img{width:40px;height:40px;border-radius:50%}
 .logo b{font-weight:900;font-size:21px;letter-spacing:-.02em;font-variation-settings:'wdth' 72}
@@ -128,12 +129,12 @@ footer a{color:rgba(244,237,221,.85);text-decoration:none}
 </head>
 <body>
 <header><div class="wrap header-inner">
-  <a class="logo" href="/"><img src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="Billhound logo"><b>BILL<span>HOUND</span></b></a>
+  <a class="logo" href="/"><picture><source srcset="/assets/billhound-mascot-80.webp" type="image/webp"><img src="/assets/billhound-mascot-80.png" alt="Billhound logo" width="40" height="40" loading="eager" fetchpriority="high"></picture><b>BILL<span>HOUND</span></b></a>
   <span class="member-pill">CARD SHIELD MEMBER BENEFIT</span>
 </div></header>
 
 <section class="hero"><div class="wrap hero-grid">
-  <img src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="Billhound, the bill negotiation bloodhound">
+  <picture><source srcset="/assets/billhound-mascot-300.webp" type="image/webp"><img src="/assets/billhound-mascot-300.png" alt="Billhound, the bill negotiation bloodhound" width="150" height="150" loading="eager" fetchpriority="high"></picture>
   <div>
     <div class="eyebrow">For Card Shield members</div>
     <h1>His fee is covered. <em>You keep 100% of every win.</em></h1>

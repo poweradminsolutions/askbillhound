@@ -85,6 +85,7 @@ body{
 /* ================= header ================= */
 header{border-bottom:1px solid rgba(244,237,221,.14)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+picture{display:contents}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--paper)}
 .logo svg{width:40px;height:40px}
 .logo b{font-weight:900;font-size:21px;letter-spacing:-.02em;font-variation-settings:'wdth' 72}
@@ -307,7 +308,7 @@ footer a:hover{color:var(--tan-bright)}
 <header>
   <div class="wrap header-inner">
     <a class="logo" href="/" aria-label="Billhound home">
-      <img src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="Billhound bill negotiation service logo, a bloodhound detective in a loosened tie" width="40" height="40" style="border-radius:50%">
+      <picture><source srcset="/assets/billhound-mascot-80.webp" type="image/webp"><img src="/assets/billhound-mascot-80.png" alt="Billhound bill negotiation service logo, a bloodhound detective in a loosened tie" width="40" height="40" loading="eager" fetchpriority="high" style="border-radius:50%"></picture>
       <b>BILL<span>HOUND</span></b>
     </a>
     <a class="header-cta" href="#send">SEND HIM A BILL</a>
@@ -328,7 +329,7 @@ footer a:hover{color:var(--tan-bright)}
       <p class="cta-note">No retainer. No card. No obligation.<br>One agreement per bill. Cancel anytime.</p>
     </div>
     <div class="hound-stage">
-      <img class="hound" src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="Billhound mascot, a bloodhound detective who negotiates business vendor bills down" width="430" height="430" style="border-radius:8px">
+      <picture><source srcset="/assets/billhound-mascot-860.webp" type="image/webp"><img src="/assets/billhound-mascot-860.png" alt="Billhound mascot, a bloodhound detective who negotiates business vendor bills down" class="hound" width="430" height="430" loading="eager" fetchpriority="high" style="border-radius:8px"></picture>
     </div>
   </div>
 </section>

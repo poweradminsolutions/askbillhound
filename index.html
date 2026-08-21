@@ -99,6 +99,7 @@ body{
 /* ================= header ================= */
 header{border-bottom:1px solid rgba(244,237,221,.14)}
 .header-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
+picture{display:contents}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--paper)}
 .logo svg{width:40px;height:40px}
 .logo b{font-weight:900;font-size:21px;letter-spacing:-.02em;font-variation-settings:'wdth' 72}
@@ -348,7 +349,7 @@ footer a:hover{color:var(--tan-bright)}
 <header>
   <div class="wrap header-inner">
     <a class="logo" href="/" aria-label="Billhound home">
-      <img src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="Billhound bill negotiation service logo, a bloodhound detective in a loosened tie" width="40" height="40" style="border-radius:50%">
+      <picture><source srcset="/assets/billhound-mascot-80.webp" type="image/webp"><img src="/assets/billhound-mascot-80.png" alt="Billhound bill negotiation service logo, a bloodhound detective in a loosened tie" width="40" height="40" loading="eager" fetchpriority="high" style="border-radius:50%"></picture>
       <b>BILL<span>HOUND</span></b>
     </a>
     <a class="header-cta" href="#send">SEND HIM A BILL</a>
@@ -361,6 +362,37 @@ footer a:hover{color:var(--tan-bright)}
     <div>
       <div class="eyebrow">Free bill check</div>
       <h1>Your bills keep going up because nobody checks. <em>He checks. Free.</em></h1>
+<script>
+(function(){
+  var HEROES = {
+    internet:  'Your internet bill keeps going up because nobody checks.',
+    cable:     'Your cable bill keeps going up because nobody checks.',
+    phone:     'Your phone bill keeps going up because nobody checks.',
+    spectrum:  'Your Spectrum bill keeps going up because nobody checks.',
+    xfinity:   'Your Xfinity bill keeps going up because nobody checks.',
+    comcast:   'Your Comcast bill keeps going up because nobody checks.',
+    verizon:   'Your Verizon bill keeps going up because nobody checks.',
+    att:       'Your AT&T bill keeps going up because nobody checks.',
+    negotiate: 'Nobody negotiates their bills. He does it for you.'
+  };
+  var TAIL = { negotiate: 'Free.' };
+  try {
+    var m = /[?&]bh=([^&#]*)/.exec(window.location.search);
+    if(!m) return;
+    var key = decodeURIComponent(m[1] || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    if(!Object.prototype.hasOwnProperty.call(HEROES, key)) return;
+    var h1 = document.currentScript && document.currentScript.previousElementSibling;
+    if(!h1 || h1.tagName !== 'H1') h1 = document.querySelector('.hero h1');
+    if(!h1) return;
+    // Built with createTextNode, never innerHTML, so no markup can be injected.
+    var em = document.createElement('em');
+    em.appendChild(document.createTextNode(TAIL[key] || 'He checks. Free.'));
+    h1.textContent = HEROES[key] + ' ';
+    h1.appendChild(em);
+    window.__bhHero = key;
+  } catch(e){ /* default headline stays on screen */ }
+})();
+</script>
       <p class="hero-sub">Send him the bill that's been creeping up. He's on it in seconds, and comes back fast with what's padding it and what it's worth. Free, whether or not you ever hire him.</p>
       <div class="cta-row">
         <a class="btn" href="#send">Get my free bill analysis</a>
@@ -369,7 +401,7 @@ footer a:hover{color:var(--tan-bright)}
       <p class="cta-note">No card. No account. No obligation. Never sold, ever.<br>Questions first? Ask Tess in the chat window.</p>
     </div>
     <div class="hound-stage">
-      <img class="hound" src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="Billhound mascot, a world-weary bloodhound detective who negotiates lower cable, internet and phone bills" width="430" height="430" style="border-radius:8px">
+      <picture><source srcset="/assets/billhound-mascot-860.webp" type="image/webp"><img src="/assets/billhound-mascot-860.png" alt="Billhound mascot, a world-weary bloodhound detective who negotiates lower cable, internet and phone bills" class="hound" width="430" height="430" loading="eager" fetchpriority="high" style="border-radius:8px"></picture>
     </div>
   </div>
 </section>
@@ -528,7 +560,7 @@ footer a:hover{color:var(--tan-bright)}
 <section class="final" id="send">
   <div class="wrap">
     <div class="final-grid">
-      <img src="/assets/billhound-bill-negotiation-mascot-logo-navy.png" alt="" aria-hidden="true" width="130" height="130" style="border-radius:8px">
+      <picture><source srcset="/assets/billhound-mascot-260.webp" type="image/webp"><img src="/assets/billhound-mascot-260.png" alt="" aria-hidden="true" width="130" height="130" loading="lazy" decoding="async" style="border-radius:8px"></picture>
       <div>
         <div class="eyebrow rv">One text from now</div>
         <h2 class="rv">Get the free analysis.</h2>
@@ -800,6 +832,11 @@ footer a:hover{color:var(--tan-bright)}
   // Bill submitted. Standard Lead is the ad optimization target, custom
   // BillSubmitted is for our own reporting. Same eventID on both so the
   // browser event and the CAPI server event dedupe once CAPI ships.
+  // Report which hero variant rendered, so headlines can be compared in GA4.
+  if (window.__bhHero && typeof gtag === 'function') {
+    try { gtag('event', 'hero_variant', { variant: window.__bhHero }); } catch(e){}
+  }
+
   window.__bhSubmitted = function(submissionId){
     var opts = submissionId ? {eventID: submissionId} : {};
     fire('track', 'Lead', {}, opts);
